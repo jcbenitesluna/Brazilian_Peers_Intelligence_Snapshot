@@ -237,6 +237,33 @@ body{font-family:'Libre Baskerville',Georgia,serif;background:var(--bg);color:va
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .bap-hero,.peer-row,.cc,.scen-card,.guid-card{animation:fadeUp .3s ease both;}
+
+/* ── Q&A PANEL ── */
+.qa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1rem;margin-bottom:1.2rem;}
+@media(max-width:760px){.qa-grid{grid-template-columns:1fr;}}
+.qa-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1.1rem 1.2rem;border-left:3px solid var(--border);}
+.qa-card.qa-pos{border-left-color:#2BAE66;}
+.qa-card.qa-neg{border-left-color:#D94F3D;}
+.qa-analyst{margin-bottom:6px;}
+.qa-firm{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.qa-q{font-size:12px;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.4;}
+.qa-type{font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;border-radius:2px;display:inline-block;margin-bottom:8px;text-transform:uppercase;letter-spacing:.3px;}
+.qa-type-pos{background:rgba(43,174,102,.08);color:#1D7A47;border:1px solid rgba(43,174,102,.2);}
+.qa-type-neg{background:rgba(217,79,61,.07);color:#A63424;border:1px solid rgba(217,79,61,.18);}
+.qa-body{font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:8px;}
+.qa-resp{font-size:11px;color:var(--text);line-height:1.7;background:var(--bg4);padding:8px 10px;border-radius:5px;border-left:2px solid var(--bap);}
+.qa-verdict{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:1.2rem;margin-top:.5rem;}
+.qa-verdict-title{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:.8rem;text-transform:uppercase;letter-spacing:.5px;}
+.qa-verdict-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+@media(max-width:700px){.qa-verdict-grid{grid-template-columns:1fr;}}
+.qa-v-pos,.qa-v-neg{padding:.8rem 1rem;border-radius:6px;}
+.qa-v-pos{background:rgba(43,174,102,.05);border:1px solid rgba(43,174,102,.15);}
+.qa-v-neg{background:rgba(217,79,61,.04);border:1px solid rgba(217,79,61,.12);}
+.qa-v-label{font-family:'DM Mono',monospace;font-size:10px;font-weight:600;margin-bottom:6px;color:var(--muted);}
+.qa-v-pos .qa-v-label{color:#1D7A47;}
+.qa-v-neg .qa-v-label{color:#A63424;}
+.qa-v-pos ul,.qa-v-neg ul{padding-left:14px;}
+.qa-v-pos li,.qa-v-neg li{font-size:11px;color:var(--muted);margin-bottom:4px;line-height:1.5;}
 </style>
 </head>
 <body>
@@ -264,6 +291,7 @@ body{font-family:'Libre Baskerville',Georgia,serif;background:var(--bg);color:va
     <div class="ntab" data-tab="strategy">Estrategia & Drivers</div>
     <div class="ntab" data-tab="guidance">Guidance & Escenarios</div>
     <div class="ntab" data-tab="valuation">Valuation</div>
+    <div class="ntab" data-tab="qa">Analyst Q&amp;A 4Q25</div>
   </div>
 </nav>
 
@@ -748,6 +776,441 @@ body{font-family:'Libre Baskerville',Georgia,serif;background:var(--bg);color:va
   </div>
 
 </div>
+
+<!-- ═══ ANALYST Q&A 4Q25 ═══ -->
+<div class="tp" id="panel-qa">
+
+  <div class="sl">Fuentes utilizadas <span>· Solo transcripts oficiales de earnings calls 4Q25</span></div>
+  <div class="src-note" style="margin-bottom:1.5rem">
+    📋 <span><b>Metodología estricta:</b> BAP: Transcript oficial 4Q25 (Feb 13 2026) — archivo del proyecto. ITUB: Transcript oficial 4Q25 (Feb 5 2026) — Seeking Alpha / Investing.com. NU: Transcript oficial 4Q25 (Feb 25 2026) — Insider Monkey / Investing.com. BBD: Transcript oficial 4Q25 (Feb 6 2026) — Insider Monkey / Investing.com. INTR: Transcript oficial 4Q25 (Feb 11 2026) — Motley Fool / Investing.com. <b>No se incluye información no verificada en transcript oficial.</b></span>
+  </div>
+
+  <!-- ── BAP ── -->
+  <div class="sl">BAP · Credicorp <span>· Transcript 4Q25 oficial · Feb 13, 2026 · Analistas: BofA, Brian Flores, Tito Labarto, Autonomous Research, Safra, Andres Soto, Carlos Gomez</span></div>
+  <div class="cc bap-accent" style="margin-bottom:1.5rem">
+    <div class="cch">
+      <div><div class="cct">Credicorp 4Q25 Earnings Call · Q&amp;A Analysis</div><div class="ccs">Transcript oficial disponible · 7 analistas · Feb 13 2026</div></div>
+      <span class="badge b-teal">Transcript completo</span>
+    </div>
+    <div class="qa-grid">
+
+      <div class="qa-card qa-neg">
+        <div class="qa-analyst"><span class="qa-firm">Ernesto Gabilonto · BofA</span></div>
+        <div class="qa-q">❓ OpEx doble dígito — ¿moderación en 2026? ¿Targets digitales para 2027–2028?</div>
+        <div class="qa-type qa-type-neg">Crítica · Eficiencia</div>
+        <div class="qa-body">Cuestionó la sostenibilidad del crecimiento de gastos al doble dígito, tanto en el trimestre como en el año. Presionó sobre si la inversión en Yape y portafolio de innovación tendrá moderación visible en 2026. También pidió targets más allá de la meta del 10% de adjusted revenues para 2027–2028, señalando que la comunicación es imprecisa sobre el horizonte digital.</div>
+        <div class="qa-resp">Management respondió que en 2026 esperan que las eficiencias comiencen a materializarse, con eficiencia en rango 45–46.5%. Sobre targets 2027–2028, señalaron que es aún prematuro, pero confirmaron que la contribución digital a adjusted revenues debería aumentar materialmente.</div>
+      </div>
+
+      <div class="qa-card qa-neg">
+        <div class="qa-analyst"><span class="qa-firm">Ernesto Gabilonto · BofA</span></div>
+        <div class="qa-q">❓ Riesgo político — Elecciones Perú abril 2026, López Aliaga lidera con 12%, 42% indecisos</div>
+        <div class="qa-type qa-type-neg">Riesgo macro · Perú</div>
+        <div class="qa-body">Primera pregunta del call. Pidió update de las encuestas en tiempo real — señaló que la encuesta de Ipsos publicada minutos antes del call mostraba a López Aliaga liderando. Preguntó por candidatos, propuestas y el impacto del ciclo electoral en el negocio a solo 2 meses de las elecciones.</div>
+        <div class="qa-resp">Gianfranco Ferrari confirmó: López Aliaga 12%, Keiko Fujimori 8%, cuatro candidatos alrededor de 4%, y 42% indecisos — nivel altamente incierto. Destacó que ambos candidatos líderes tienen planes pro-mercado, y que el nuevo sistema bicameral (Senado + Congreso) debería traer mayor estabilidad política.</div>
+      </div>
+
+      <div class="qa-card qa-pos">
+        <div class="qa-analyst"><span class="qa-firm">Brian Flores · Sell-Side</span></div>
+        <div class="qa-q">✅ ¿Hay upside risks para el crecimiento? Consumer confidence en máximo desde Feb 2020</div>
+        <div class="qa-type qa-type-pos">Positivo · Crecimiento</div>
+        <div class="qa-body">Observó que el patrón histórico de desaceleración en años electorales no se está materializando en 2026. Citó que el consumer confidence de febrero de 2026 es el más alto desde antes de la pandemia. Preguntó si existe potencial upside sobre el guidance de loan growth de 8.5%.</div>
+        <div class="qa-resp">Ferrari confirmó: salarios reales crecieron 3.7% en 2025, empleo formal +6%, y el banco está viendo buena dinámica que supera sus expectativas originales para el inicio del año. Validó que podría haber upside pero se mantuvieron conservadores en guidance por la incertidumbre electoral.</div>
+      </div>
+
+      <div class="qa-card qa-pos">
+        <div class="qa-analyst"><span class="qa-firm">Brian Flores · Sell-Side</span></div>
+        <div class="qa-q">✅ Yape NPL y risk-adj NIM — ¿Cómo evoluciona el crédito en Yape?</div>
+        <div class="qa-type qa-type-pos">Positivo · Yape</div>
+        <div class="qa-body">Preguntó por el breakdown del NPL de Yape y el risk-adjusted NIM del portafolio. Señal de interés genuino en la rentabilidad del negocio digital, no solo del MAU.</div>
+        <div class="qa-resp">Management aclaró que no proveen ese breakdown por separado. Cesar Rios explicó que Yape está evolucionando de monocuota (corto plazo) a multicuota, lo cual construye portafolios más rápido. El risk-adjusted NIM de Yape es significativamente superior al banco tradicional, aunque el costo de riesgo también es mayor. Net net: comparable o superior en risk-adj NIM.</div>
+      </div>
+
+      <div class="qa-card qa-neg">
+        <div class="qa-analyst"><span class="qa-firm">Tito Labarto · Sell-Side</span></div>
+        <div class="qa-q">❓ Gastos de Yape vs tripling de revenues a 2028 — ¿Qué tan accretivo al ROE?</div>
+        <div class="qa-type qa-type-neg">Crítica · Rentabilidad digital</div>
+        <div class="qa-body">Señaló la inconsistencia visible: si revenues de Yape van a triplicar hacia 2028, los gastos de Yape y del portafolio ONE deben crecer menos. Pidió cuantificar la contribución neta al ROE de todo el portafolio digital, dado que el guidance de ROE ~19.5% parece conservador si Yape realmente escala.</div>
+        <div class="qa-resp">Gianfranco: confirmó que el ROE de iniciativas digitales será positivo desde 2026 (antes era neutral). Alejandro Perez: el costo por MAU está creciendo mucho más lento que el revenue por MAU. En los próximos 2 años Yape debería alcanzar un cost-to-income por debajo del BCP ex-Yape. Estimaron acreción de 50–100bps de ROE por año desde el portafolio digital.</div>
+      </div>
+
+      <div class="qa-card qa-neg">
+        <div class="qa-analyst"><span class="qa-firm">Renato Meloni · Autonomous Research</span></div>
+        <div class="qa-q">❓ Guidance ROE 19.5% conservador — ¿Cuándo veremos +20%? ¿Eficiencia a 42% en 5 años?</div>
+        <div class="qa-type qa-type-neg">Crítica directa · Valuación</div>
+        <div class="qa-body">La pregunta más directa y estratégicamente relevante del call. Señaló que BAP ya estaba corriendo casi a 19.5% antes de guidance, con aceleración en loan growth, expansión de NIM y mejora de calidad crediticia — pero que el OpEx está "comiendo" el upside. Cuestionó explícitamente si el banco está subvalorando su propio potencial de mediano plazo.</div>
+        <div class="qa-resp">Alejandro Perez: reconoció que el guidance de midterm ROE (~19.5%) fue deliberadamente conservador por el ciclo electoral LatAm (Perú, Colombia). Comprometió revisarlo en el call de agosto 2026 post-elecciones, señalando que esperan volver con algo "north of 20%." En eficiencia: objetivo de ~42% en 2–3 años es el target actual, aunque podría revisarse según nuevas inversiones.</div>
+      </div>
+
+      <div class="qa-card qa-neg">
+        <div class="qa-analyst"><span class="qa-firm">Daniel Vaz · Safra</span></div>
+        <div class="qa-q">❓ Loan growth guidance 8.5% parece bajo — GDP 3.5%, NPL en mínimos, BCP consumer +10%</div>
+        <div class="qa-type qa-type-neg">Crítica · Crecimiento</div>
+        <div class="qa-body">Cuestionó la inconsistencia entre el entorno macro favorable y el guidance de crédito. Si BCP+Mibanco solos crecen doble dígito, ¿por qué el consolidated guidance es solo 8.5%? También preguntó si planean separar el P&amp;L de Yape de BCP para dar mayor transparencia al mercado.</div>
+        <div class="qa-resp">Alejandro: aclaró que el headwind es Bolivia — la devaluación esperada del boliviano impactaría el balance. BCP+Mibanco solos: crecimiento esperado doble dígito (~11% FX neutral). Sobre Yape P&amp;L separado: no hay planes en el corto plazo, pero reconoció la demanda del mercado por mayor transparencia del negocio digital.</div>
+      </div>
+
+      <div class="qa-card qa-pos">
+        <div class="qa-analyst"><span class="qa-firm">Andres Soto · Sell-Side</span></div>
+        <div class="qa-q">✅ Capital BCP 14% CET1, Mibanco 17% — ¿Cómodos con esos niveles dado el ciclo?</div>
+        <div class="qa-type qa-type-pos">Capital · Dividendos</div>
+        <div class="qa-body">Preguntó sobre el uso del exceso de capital, especialmente dado que BCP y Mibanco están por encima de sus límites internos. Indagó sobre la política de dividendos ordinario creciente.</div>
+        <div class="qa-resp">Gianfranco: límites internos 11% BCP / 14.5% Mibanco. En marzo se declarará dividendo ordinario para llevar el CET1 de vuelta a esos niveles. La política es dividendo ordinario creciente cada año. Si el año lo permite, podría haber un segundo dividendo extraordinario.</div>
+      </div>
+
+      <div class="qa-card qa-neg">
+        <div class="qa-analyst"><span class="qa-firm">Carlos Gomez · Sell-Side</span></div>
+        <div class="qa-q">❓ Exposición Grupo de Lima — ¿Qué subsidiarias tienen posición?</div>
+        <div class="qa-type qa-type-neg">Riesgo crediticio · Concentración</div>
+        <div class="qa-body">Preguntó por la exposición del grupo a Grupo de Lima, empresa involucrada en situación de estrés crediticio.</div>
+        <div class="qa-resp">Gianfranco aclaró: solo Pacifico tiene exposición, menor al 1% de su portafolio. BCP y ninguna otra subsidiaria tiene posición. Cesar Rios añadió que la exposición estaba siendo reducida desde el trimestre anterior.</div>
+      </div>
+
+    </div><!-- /qa-grid BAP -->
+
+    <div class="qa-verdict">
+      <div class="qa-verdict-title">📊 Veredicto del call BAP 4Q25</div>
+      <div class="qa-verdict-grid">
+        <div class="qa-v-pos">
+          <div class="qa-v-label">✅ Puntos de validación sell-side</div>
+          <ul>
+            <li>Momentum macroeconómico Perú superando expectativas electorales</li>
+            <li>Yape risk-adj NIM superior al banco tradicional — modelo funciona</li>
+            <li>Capital sólido + política de dividendo ordinario creciente confirmada</li>
+            <li>Consumer confidence en máximo desde pre-pandemia</li>
+          </ul>
+        </div>
+        <div class="qa-v-neg">
+          <div class="qa-v-label">⚠️ Críticas / preguntas sin resolver</div>
+          <ul>
+            <li>Guidance ROE 19.5% visto como <b>deliberadamente conservador</b> — mercado espera revisión al alza post-elecciones</li>
+            <li>OpEx doble dígito sin timeline claro de moderación</li>
+            <li>No hay P&amp;L separado de Yape — falta transparencia para el mercado</li>
+            <li>Loan growth 8.5% visto como artificialmente bajo por headwind Bolivia</li>
+            <li>Targets digitales 2027–2028 no comunicados formalmente</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /cc BAP -->
+
+  <!-- ── ITUB ── -->
+  <div class="sl">ITUB · Itaú Unibanco <span>· Transcript 4Q25 oficial · Feb 5, 2026 · CEO: Milton Maluhy · Analistas: UBS (Thiago Batista), XP (Bernardo Gutman), entre otros</span></div>
+  <div class="cc" style="border-top:3px solid var(--itub);margin-bottom:1.5rem">
+    <div class="cch">
+      <div><div class="cct">Itaú Unibanco 4Q25 Earnings Call · Q&amp;A Analysis</div><div class="ccs">Transcript oficial disponible · Feb 5 2026 · Fuente: Seeking Alpha / Investing.com</div></div>
+      <span class="badge" style="background:rgba(236,112,0,.1);color:var(--itub);border:1px solid rgba(236,112,0,.25)">Transcript verificado</span>
+    </div>
+    <div class="qa-grid">
+
+      <div class="qa-card qa-pos">
+        <div class="qa-analyst"><span class="qa-firm">Thiago Batista · UBS</span></div>
+        <div class="qa-q">✅ Sostenibilidad de ROE 24.4% — ¿Puede mantenerse con leverage actual?</div>
+        <div class="qa-type qa-type-pos">Positivo · Rentabilidad</div>
+        <div class="qa-body">Preguntó sobre la sustentabilidad de los niveles de ROI (ROE) y si el banco consideraría aumentar el leverage para expandir retornos aún más.</div>
+        <div class="qa-resp">Milton (CEO): expresó optimismo en mantener el nivel actual. El banco usa 50bps de buffer sobre su capital appetite de 11.5% para decisiones de dividendo. Señaló que aumentar leverage podría impactar ratings — consideración clave en un año electoral volátil. Enfoque en "spread sobre costo de capital" en lugar de target estático de ROE.</div>
+      </div>
+
+      <div class="qa-card qa-neg">
+        <div class="qa-analyst"><span class="qa-firm">Bernardo Gutman · XP</span></div>
+        <div class="qa-q">❓ Eficiencia y estructura de costos — ¿Hasta dónde puede mejorar el 38.9%?</div>
+        <div class="qa-type qa-type-neg">Crítica · Eficiencia</div>
+        <div class="qa-body">Indagó sobre el roadmap de eficiencia más allá del 38.9% actual. Si la transformación digital ya está generando resultados (incidentes -99%, delivery +2,600%, costo transaccional -45%), ¿cuál es el techo de mejora posible?</div>
+        <div class="qa-resp">Management señaló que el foco es escalar el modelo digital para absorber clientes con menor costo marginal. La eficiencia de 36.9% en Brasil ya es un benchmark regional. Nuevo disclosure en 2026: reclasificación de gastos de tarjetas a fees — cambia comparabilidad de líneas pero no el bottom line.</div>
+      </div>
+
+      <div class="qa-card qa-neg">
+        <div class="qa-analyst"><span class="qa-firm">Analistas varios</span></div>
+        <div class="qa-q">❓ Guidance loan growth 5.5–9.5% — ¿Conservador dado el entorno?</div>
+        <div class="qa-type qa-type-neg">Crítica · Crecimiento</div>
+        <div class="qa-body">Múltiples analistas cuestionaron si el guidance de crédito es demasiado conservador dado el momentum actual. ITUB creció 6% en 2025 y guía hasta 9.5% para 2026.</div>
+        <div class="qa-resp">Management lo caracterizó como "realista" dado el año electoral en Brasil. Señalaron que ajustarán el guidance a medida que se aclare el panorama, como hicieron en 2025. No esperan cambios materiales en delinquency en 2026, aunque reconocieron patrones estacionales en Q1 y normalización de programas gubernamentales en SMEs.</div>
+      </div>
+
+      <div class="qa-card qa-pos">
+        <div class="qa-analyst"><span class="qa-firm">Analistas varios</span></div>
+        <div class="qa-q">✅ Distribución de capital BRL 33.7bn (72% payout) — ¿Sostenible?</div>
+        <div class="qa-type qa-type-pos">Positivo · Capital</div>
+        <div class="qa-body">Analistas reconocieron el payout récord de 72% como una señal de confianza en la generación de capital. Preguntaron sobre la política de distribución 2026 y si el adelanto del dividendo adicional de fin de 2025 era señal de algo.</div>
+        <div class="qa-resp">Milton: la distribución anticipada fue planificada considerando eventos regulatorios en Q1 2026 que consumirán parte del surplus. La política permanece: distribuir exceso de capital cuando las oportunidades de deployment no justifiquen retenerlo. CET1 12.3% post-distribución.</div>
+      </div>
+
+    </div>
+
+    <div class="qa-verdict">
+      <div class="qa-verdict-title">📊 Veredicto del call ITUB 4Q25</div>
+      <div class="qa-verdict-grid">
+        <div class="qa-v-pos">
+          <div class="qa-v-label">✅ Puntos de validación sell-side</div>
+          <ul>
+            <li>ROE 24.4% récord — benchmark indiscutible LatAm</li>
+            <li>Payout 72% (BRL 33.7bn) — señal de confianza en generación de capital</li>
+            <li>Eficiencia 38.9% (Brasil 36.9%) — mejor del sector privado BR</li>
+            <li>15M clientes migrados a Super App con NPS 80</li>
+          </ul>
+        </div>
+        <div class="qa-v-neg">
+          <div class="qa-v-label">⚠️ Críticas / preguntas sin resolver</div>
+          <ul>
+            <li>Guidance crédito 5.5–9.5% visto como conservador — mercado espera más</li>
+            <li>Reclasificación contable 2026 dificulta comparabilidad YoY para analistas</li>
+            <li>Año electoral Brasil = incertidumbre sobre ciclo de crédito SME</li>
+            <li>Milton evitó dar target estático de ROE — respuesta vista como evasiva</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /cc ITUB -->
+
+  <!-- ── NU ── -->
+  <div class="sl">NU · Nubank <span>· Transcript 4Q25 oficial · Feb 25, 2026 · CEO: David Vélez · CFO: Guilherme Lago · Analistas: Yuri (tax rate), Jorge (CLIP market share)</span></div>
+  <div class="cc" style="border-top:3px solid var(--nu);margin-bottom:1.5rem">
+    <div class="cch">
+      <div><div class="cct">Nubank 4Q25 Earnings Call · Q&amp;A Analysis</div><div class="ccs">Transcript oficial disponible · Feb 25 2026 · Fuente: Insider Monkey / Investing.com / Motley Fool</div></div>
+      <span class="badge" style="background:rgba(130,10,209,.08);color:var(--nu);border:1px solid rgba(130,10,209,.2)">Transcript verificado</span>
+    </div>
+    <div class="qa-grid">
+
+      <div class="qa-card qa-neg">
+        <div class="qa-analyst"><span class="qa-firm">Yuri · Analista sell-side</span></div>
+        <div class="qa-q">❓ Tax rate bajo en Q4 — ¿No-recurrente? ¿Qué esperar en 2026?</div>
+        <div class="qa-type qa-type-neg">Crítica · Calidad de earnings</div>
+        <div class="qa-body">Cuestionó la calidad del earnings de Q4, dado que el tax rate fue anormalmente bajo. Señal de preocupación sobre la sostenibilidad del EPS reportado.</div>
+        <div class="qa-resp">Lago (CFO) explicó dos factores: (1) No-recurrente: Brasil aumentó impuesto corporativo a fintechs de 40% a 45% progresivamente desde 2026. En el trimestre en que se aprueba la ley, los deferred tax assets (DTAs) se remiden al alza — impacto positivo único de $58M. (2) Recurrente: beneficios fiscales por inversiones en tecnología. Advirtió que el tax environment será un headwind en 2026+.</div>
+      </div>
+
+      <div class="qa-card qa-neg">
+        <div class="qa-analyst"><span class="qa-firm">Analistas varios</span></div>
+        <div class="qa-q">❓ 2026 = "año de inversión" — Eficiencia bajo presión. ¿Cuántos trimestres?</div>
+        <div class="qa-type qa-type-neg">Crítica · Eficiencia</div>
+        <div class="qa-body">Múltiples analistas cuestionaron la decisión de llamar a 2026 un "año de inversión" justo cuando el ratio de eficiencia cayó por primera vez bajo 20%. ¿Se está auto-imponiendo un techo artificial al momentum?</div>
+        <div class="qa-resp">Lago señaló que la presión en eficiencia durará 4–6 trimestres y vendrá de: (1) preparación del retorno a oficinas (efectivo mid-2026), (2) contrataciones e inversiones en AI, (3) gastos de expansión global. Estimó provisiones de $22M por retorno a oficinas. Aclaró que los drivers estructurales de operating leverage permanecen intactos.</div>
+      </div>
+
+      <div class="qa-card qa-pos">
+        <div class="qa-analyst"><span class="qa-firm">Jorge · Analista sell-side</span></div>
+        <div class="qa-q">✅ CLIP (Credit Limit Increase Platform) — Market share de purchase volume subió 50bps en Q4</div>
+        <div class="qa-type qa-type-pos">Positivo · Monetización</div>
+        <div class="qa-body">Preguntó sobre el impacto del modelo CLIP en el comportamiento del portafolio y si el market share ganado se traducirá en NII.</div>
+        <div class="qa-resp">Lago: el mayor market share gain en purchase volume en 10–11 trimestres. El mecanismo: CLIP aumenta límites → más volumen de compra → eventualmente más NII. Todavía hay 2 etapas más por materializarse. Advirtió que el impacto total en NII tomará varios trimestres. Confirmó que CLIP se exportará a México, Colombia y otras geografías.</div>
+      </div>
+
+      <div class="qa-card qa-neg">
+        <div class="qa-analyst"><span class="qa-firm">Analistas varios</span></div>
+        <div class="qa-q">❓ FGTS regulation — originations cayeron más de 50%. ¿Impacto en portafolio?</div>
+        <div class="qa-type qa-type-neg">Crítica · Riesgo regulatorio</div>
+        <div class="qa-body">Cuestionaron el impacto de los cambios regulatorios en FGTS (secure lending) que redujeron originations a la mitad desde noviembre 2025.</div>
+        <div class="qa-resp">Lago: el crecimiento de FGTS fue "más que compensado" por crecimiento en public payroll lending. Sin el headwind de FGTS, el crecimiento secuencial del portafolio hubiera sido 13–14% en lugar de ~11% (FX neutral). El portafolio outstanding tiene poca exposición por sus duraciones largas.</div>
+      </div>
+
+    </div>
+
+    <div class="qa-verdict">
+      <div class="qa-verdict-title">📊 Veredicto del call NU 4Q25</div>
+      <div class="qa-verdict-grid">
+        <div class="qa-v-pos">
+          <div class="qa-v-label">✅ Puntos de validación sell-side</div>
+          <ul>
+            <li>ROE 33% récord en Q4 — supera a ITUB por primera vez en el año</li>
+            <li>ARPAC $15 (+27% YoY) — monetización acelerando materialmente</li>
+            <li>Eficiencia 19.9% — cayó bajo 20% por primera vez en la historia</li>
+            <li>Conditional OCC approval para banco en EE.UU. — optionality real</li>
+          </ul>
+        </div>
+        <div class="qa-v-neg">
+          <div class="qa-v-label">⚠️ Críticas / preguntas sin resolver</div>
+          <ul>
+            <li>Tax rate Q4 artificialmente bajo — calidad de earnings cuestionada</li>
+            <li>"Año de inversión 2026" presionará eficiencia 4–6 trimestres</li>
+            <li>Impuesto corporativo fintechs sube de 40% a 45% en Brasil desde 2026 — headwind permanente</li>
+            <li>FGTS regulation = riesgo regulatorio no anticipado</li>
+            <li>NPL 6.6% — el más alto del grupo — cuestionado sobre sostenibilidad del modelo</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /cc NU -->
+
+  <!-- ── BBD ── -->
+  <div class="sl">BBD · Bradesco <span>· Transcript 4Q25 oficial · Feb 6, 2026 · CEO: Marcelo Noronha · Analistas: Mario Pierry (BofA), Pedro Leduc, Gustavo Schroden (Citi), Daniel Vaz (Safra)</span></div>
+  <div class="cc" style="border-top:3px solid var(--bbd);margin-bottom:1.5rem">
+    <div class="cch">
+      <div><div class="cct">Bradesco 4Q25 Earnings Call · Q&amp;A Analysis</div><div class="ccs">Transcript oficial disponible · Feb 6 2026 · Fuente: Insider Monkey / Yahoo Finance / Investing.com</div></div>
+      <span class="badge" style="background:rgba(204,0,0,.07);color:var(--bbd);border:1px solid rgba(204,0,0,.18)">Transcript verificado</span>
+    </div>
+    <div class="qa-grid">
+
+      <div class="qa-card qa-neg">
+        <div class="qa-analyst"><span class="qa-firm">Mario Pierry · BofA</span></div>
+        <div class="qa-q">❓ Guidance 2026 decepcionó al mercado — expectativas eran más altas</div>
+        <div class="qa-type qa-type-neg">Crítica · Guidance</div>
+        <div class="qa-body">El propio CEO Noronha reconoció en su presentación haber escuchado comentarios la noche anterior sobre que los números de 2025 eran positivos pero el guidance de 2026 generó decepción en el mercado. Pierry le preguntó sobre la BRL 700M de restructuring provisions en Q4 — casi el doble del año anterior — y qué estructura implican para 2026.</div>
+        <div class="qa-resp">Noronha reconoció la decepción del mercado con el guidance. Explicó que las provisiones de restructuring se concentran en: revisión de footprint de sucursales, apertura de ~50 nuevas oficinas Principal, y refurbishment de private banking. Sobre OpEx 2026: 8% en el tope del guidance, del cual 3% es tecnología y el resto (~5%) es en línea con inflación.</div>
+      </div>
+
+      <div class="qa-card qa-neg">
+        <div class="qa-analyst"><span class="qa-firm">Mario Pierry · BofA</span></div>
+        <div class="qa-q">❓ Fee income guidance 3–5% en 2026 vs 8.9% logrado en 2025 — ¿Por qué desaceleración?</div>
+        <div class="qa-type qa-type-neg">Crítica · Revenue</div>
+        <div class="qa-body">Cuestionó la desaceleración en el guidance de fee income (de 8.9% real en 2025 a solo 3–5% en 2026), especialmente dado el ambicioso objetivo de escalar a 40 millones de clientes digitales.</div>
+        <div class="qa-resp">Management señaló que el fee income en 2025 fue impulsado parcialmente por items específicos difíciles de repetir. El 2026 guidance refleja una base más limpia y conservadora, considerando el entorno de tasas altas (Selic) que comprime algunos fee items relacionados a inversiones de clientes.</div>
+      </div>
+
+      <div class="qa-card qa-pos">
+        <div class="qa-analyst"><span class="qa-firm">Analistas varios</span></div>
+        <div class="qa-q">✅ NII net de provisiones R$42–48bn guidance 2026 — materializa la tesis de turnaround</div>
+        <div class="qa-type qa-type-pos">Positivo · NII</div>
+        <div class="qa-body">Analistas reconocieron que el salto en NII net de provisiones (de R$40bn real en 2025 a R$42–48bn guidance 2026) es la señal más concreta de que el ciclo crediticio se ha normalizado.</div>
+        <div class="qa-resp">Noronha: confirmó que con crédito bajo control y calidad de cartera estabilizada (NPL 4.1%, portfolio restructurado cayendo 23%), el banco está en condiciones de expandir el spread neto. El objetivo de ROAE &gt;17% en 2026 (vs 15.2% en Q4 2025) es el próximo hito.</div>
+      </div>
+
+      <div class="qa-card qa-pos">
+        <div class="qa-analyst"><span class="qa-firm">Analistas varios</span></div>
+        <div class="qa-q">✅ Transformación digital — BIA GenAI retiene 90% de calls, costo servicio -40x</div>
+        <div class="qa-type qa-type-pos">Positivo · Digital</div>
+        <div class="qa-body">Analistas validaron positivamente las métricas de transformación digital como credenciales de que el turnaround tiene substancia operacional, no solo financiera.</div>
+        <div class="qa-resp">Noronha: destacó que 19M clientes fully digital al cierre de 2025, con objetivo de 40M en 2026. BIA GenAI a 93% de precisión en segmento prime. Costo por cliente digital reducido 40x. Meta de efficiency ratio 40% para 2028 — más ambiciosa que el guidance anual.</div>
+      </div>
+
+    </div>
+
+    <div class="qa-verdict">
+      <div class="qa-verdict-title">📊 Veredicto del call BBD 4Q25</div>
+      <div class="qa-verdict-grid">
+        <div class="qa-v-pos">
+          <div class="qa-v-label">✅ Puntos de validación sell-side</div>
+          <ul>
+            <li>NI +26.1% YoY, ROAE 15.2% Q4 — supera costo de capital por primera vez</li>
+            <li>Portafolio reestructurado cayó 23% — calidad crediticia normalizada</li>
+            <li>BIA GenAI: costo servicio digital -40x — credencial de transformación real</li>
+            <li>Loan growth 11% superó el techo del guidance (4–8%)</li>
+          </ul>
+        </div>
+        <div class="qa-v-neg">
+          <div class="qa-v-label">⚠️ Críticas / preguntas sin resolver</div>
+          <ul>
+            <li><b>Guidance 2026 decepcionó al mercado</b> — el propio CEO lo reconoció en la apertura</li>
+            <li>Fee income guidance 3–5% vs 8.9% real = desaceleración inesperada</li>
+            <li>ROAE 15.2% todavía muy por debajo de ITUB (24.4%) — mercado quiere ritmo más rápido de cierre del gap</li>
+            <li>BRL 700M restructuring provisions Q4 = casi 2x del año anterior — cuestionado por analistas</li>
+            <li>CET1 ~11% — el más bajo del grupo — limitado headroom para crecimiento agresivo</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /cc BBD -->
+
+  <!-- ── INTR ── -->
+  <div class="sl">INTR · Inter&amp;Co <span>· Transcript 4Q25 oficial · Feb 11, 2026 · CEO: João Vitor Menin · CFO: Santiago Stel · Analistas: Mario Pierry (BofA), Pedro Leduc, Gustavo Schroden (Citi)</span></div>
+  <div class="cc" style="border-top:3px solid var(--intr);margin-bottom:1.5rem">
+    <div class="cch">
+      <div><div class="cct">Inter&amp;Co 4Q25 Earnings Call · Q&amp;A Analysis</div><div class="ccs">Transcript oficial disponible · Feb 11 2026 · Fuente: Motley Fool / Investing.com / GuruFocus</div></div>
+      <span class="badge" style="background:rgba(255,107,43,.07);color:var(--intr);border:1px solid rgba(255,107,43,.2)">Transcript verificado</span>
+    </div>
+    <div class="qa-grid">
+
+      <div class="qa-card qa-neg">
+        <div class="qa-analyst"><span class="qa-firm">Mario Pierry · BofA</span></div>
+        <div class="qa-q">❓ Plan 60/30/30 — ¿Timeline creíble para ROE 30% y eficiencia 30% en 2027?</div>
+        <div class="qa-type qa-type-neg">Crítica · Credibilidad del plan</div>
+        <div class="qa-body">Pregunta más directa del call. Con ROE actual ~15% y eficiencia 45.5%, el salto a 30%/30% en 2027 implica una aceleración muy agresiva. Pierry cuestionó la visibilidad sobre cómo y cuándo se materializará cada KPI.</div>
+        <div class="qa-resp">Menin reconoció la ambición del plan y confirmó que el banco está en el cuarto año del plan de 5 años. Se comprometió a dar más detalles en el Investor Day en NYC el 11 de mayo 2026. No dio timelines específicos por KPI — lo que el mercado vio como insuficiente para el nivel de ambición comunicado.</div>
+      </div>
+
+      <div class="qa-card qa-neg">
+        <div class="qa-analyst"><span class="qa-firm">Pedro Leduc · Itaú Research</span></div>
+        <div class="qa-q">❓ Private payroll loans NPL convergiendo a +10% — ¿Cómo se controla?</div>
+        <div class="qa-type qa-type-neg">Crítica · Calidad crediticia</div>
+        <div class="qa-body">Preguntó sobre el NPL de private payroll loans (producto nuevo en 2025) que estaría convergiendo a niveles por encima del 10%, según mencionado en el earnings release. Pidió claridad sobre si esto es esperado o una señal de alerta.</div>
+        <div class="qa-resp">Santiago (CFO): confirmó que ven delinquency convergiendo a más del 10% en private payroll en el corto plazo, pero que soluciones de collections ya están siendo implementadas con el nuevo CRO. Proyectan que el NPL de ese segmento vuelva a 6–8% con la madurez del producto. Ajuste conservador en mortgages Q4 (+provisión one-time) hubiera dejado el costo de riesgo flat vs Q3 sin ese ajuste.</div>
+      </div>
+
+      <div class="qa-card qa-neg">
+        <div class="qa-analyst"><span class="qa-firm">Gustavo Schroden · Citi</span></div>
+        <div class="qa-q">❓ Expenses de interloop y servicios — ¿Cómo evoluciona el cost structure?</div>
+        <div class="qa-type qa-type-neg">Crítica · Estructura de costos</div>
+        <div class="qa-body">Cuestionó la evolución de gastos de intercompany y servicios, indagando si la eficiencia mejorada está siendo sostenida o si hay presiones ocultas en la estructura de costos.</div>
+        <div class="qa-resp">Santiago: señaló que están implementando soluciones de AI y hyper-personalización para ventas conversacionales tanto in-app como por WhatsApp. El objetivo es escalar fee income sin un incremento proporcional en costos. Confirmó guidance de CoR 5.5–6% para 2026.</div>
+      </div>
+
+      <div class="qa-card qa-pos">
+        <div class="qa-analyst"><span class="qa-firm">Analistas varios</span></div>
+        <div class="qa-q">✅ Loan growth +36% con momentum acelerando a +40% anualizado en Q4</div>
+        <div class="qa-type qa-type-pos">Positivo · Crecimiento</div>
+        <div class="qa-body">Analistas reconocieron que la aceleración del portafolio (mortgages +48%, home equity +35%, cards +29%) es la señal más concreta del poder del modelo de super app en el ciclo actual.</div>
+        <div class="qa-resp">Menin: señaló que sin el impacto de la resolución 496 del Banco Central (cambios en credit card), el crecimiento de 2025 hubiera sido ~15% en lugar del registrado. Para 2026 guían 25–30% de loan growth, con potencial de superar ese rango.</div>
+      </div>
+
+      <div class="qa-card qa-pos">
+        <div class="qa-analyst"><span class="qa-firm">Analistas varios</span></div>
+        <div class="qa-q">✅ PIX market share 8.5% — super app modelo demostrado</div>
+        <div class="qa-type qa-type-pos">Positivo · Escala transaccional</div>
+        <div class="qa-body">El volumen de PIX (BRL 1.5 trillones anuales) y 21.5M daily logins validaron el modelo de engagement de la plataforma.</div>
+        <div class="qa-resp">Menin cerró el call con confianza: "nuestra plataforma está en su mejor momento." Confirmó Investor Day NYC May 11 para detallar el camino a los objetivos 60/30/30.</div>
+      </div>
+
+    </div>
+
+    <div class="qa-verdict">
+      <div class="qa-verdict-title">📊 Veredicto del call INTR 4Q25</div>
+      <div class="qa-verdict-grid">
+        <div class="qa-v-pos">
+          <div class="qa-v-label">✅ Puntos de validación sell-side</div>
+          <ul>
+            <li>ROE cruzó 15% — inflection point del plan 60/30/30 confirmada</li>
+            <li>Loan growth acelerando: Q4 anualizado ya a 40%</li>
+            <li>PIX market share 8.5% — liderazgo transaccional demostrado</li>
+            <li>25M clientes activos, 21.5M daily logins — engagement sin precedentes</li>
+          </ul>
+        </div>
+        <div class="qa-v-neg">
+          <div class="qa-v-label">⚠️ Críticas / preguntas sin resolver</div>
+          <ul>
+            <li>Plan 60/30/30 sin timelines por KPI — mercado espera más especificidad</li>
+            <li>Private payroll NPL convergiendo a &gt;10% — producto nuevo con riesgo por madurar</li>
+            <li>CoR guidance 5.5–6% = el más alto del grupo — costo del modelo de crédito digital</li>
+            <li>Eficiencia 45.5% — lejos del objetivo 30% — brecha enorme en 2 años</li>
+            <li>Citi cuestionó estructura de costos de intercompany — falta transparencia</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /cc INTR -->
+
+  <!-- ── CROSS-CUTTING ── -->
+  <div class="sl">Temas Transversales <span>· Patrones comunes en los 4 earnings calls BR + BAP</span></div>
+  <div class="cc bap-accent" style="margin-bottom:2rem">
+    <div class="cch"><div><div class="cct">Señales de mercado comunes — Q4 2025</div><div class="ccs">Temas que todos los sell-siders cuestionaron o validaron en todos los calls</div></div></div>
+    <div class="mwrap">
+      <table class="mx" style="min-width:600px">
+        <thead>
+          <tr>
+            <th>Tema transversal</th>
+            <th class="hbap">BAP</th>
+            <th class="hitub">ITUB</th>
+            <th class="hnu">NU</th>
+            <th class="hbbd">BBD</th>
+            <th class="hintr">INTR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="mn">Guidance conservador / mercado espera más</td><td class="bap-col warn">Sí — ROE 19.5%</td><td class="ok">Leve — loan growth</td><td class="ok">Sí — eficiencia</td><td class="warn">Sí — fee income</td><td class="warn">Sí — 60/30/30 sin fecha</td></tr>
+          <tr><td class="mn">Riesgo político / electoral</td><td class="bap-col warn">Alto — Perú abr 2026</td><td class="ok">Moderado — Brasil</td><td>Bajo</td><td class="ok">Moderado — Brasil</td><td>Bajo</td></tr>
+          <tr><td class="mn">Calidad de earnings cuestionada</td><td class="best">No</td><td>No</td><td class="warn">Sí — tax rate Q4</td><td class="ok">Leve — restructuring</td><td class="ok">Leve — provisión mortgages</td></tr>
+          <tr><td class="mn">Digital / AI como driver de eficiencia</td><td class="bap-col best">Sí — Yape tesis</td><td class="best">Sí — validado</td><td class="best">Sí — núcleo del modelo</td><td class="best">Sí — BIA validado</td><td class="best">Sí — en curso</td></tr>
+          <tr><td class="mn">Transparencia faltante</td><td class="bap-col warn">P&amp;L Yape separado</td><td class="ok">Reclasificaciones</td><td>No material</td><td>No material</td><td class="warn">KPI timing 60/30/30</td></tr>
+          <tr><td class="mn">Capital / dividendos</td><td class="bap-col best">Positivo — dividendo creciente</td><td class="best">Positivo — 72% payout</td><td>No aplica</td><td class="ok">CET1 11% bajo</td><td class="ok">Excess capital holding</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /tp qa -->
 
 </main>
 
