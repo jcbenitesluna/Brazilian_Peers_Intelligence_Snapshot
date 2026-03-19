@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Credicorp · IR Intelligence · BR Banking Peers</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* ── Credicorp brand ── */
+  --bap:       #5AA6A1;   /* teal principal */
+  --bap-pink:  #E94B87;   /* magenta acento */
+  --bap-dark:  #3D7A76;   /* teal oscuro */
+  --bap-pale:  rgba(90,166,161,0.10);
+  --bap-pale2: rgba(90,166,161,0.06);
+  --bap-glow:  rgba(233,75,135,0.12);
+
+  /* ── Peer brand colors (oficiales) ── */
+  --itub:  #EC7000;   /* Itaú naranja */
+  --nu:    #820AD1;   /* Nubank violeta */
+  --bbd:   #CC0000;   /* Bradesco rojo */
+  --intr:  #FF6B2B;   /* Inter naranja-rojo */
+
+  /* ── UI ── */
+  --bg:    #E6E6E6;
+  --bg2:   #F2F2F2;
+  --bg3:   #FFFFFF;
+  --bg4:   #EAEAEA;
+  --text:  #1A1A2E;
+  --muted: #5A6478;
+  --dim:   #9AA3B0;
+  --border:#D0D0D0;
+  --border2:#E0E0E0;
+
+  /* ── Escenarios ── */
+  --bear:  #D94F3D;
+  --base:  #2D7DD2;
+  --bull:  #2BAE66;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Libre Baskerville',Georgia,serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+
+/* ── HEADER ── */
+.header{background:var(--bap);border-bottom:3px solid var(--bap-pink);position:sticky;top:0;z-index:100;}
+.hdr-inner{max-width:1480px;margin:0 auto;padding:0 1.5rem;height:56px;display:flex;align-items:center;gap:1.5rem;}
+.h-brand{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.h-badge{background:var(--bap-pink);color:#fff;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;padding:4px 10px;border-radius:2px;letter-spacing:1.5px;text-transform:uppercase;}
+.h-title{font-size:13px;font-weight:700;color:#fff;letter-spacing:0.3px;}
+.h-sep{width:1px;height:20px;background:rgba(255,255,255,0.25);flex-shrink:0;}
+.h-chips{display:flex;gap:8px;flex:1;overflow:hidden;}
+.hchip{font-family:'DM Mono',monospace;font-size:10px;padding:3px 10px;border-radius:2px;border:1px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.70);letter-spacing:0.5px;white-space:nowrap;}
+.hchip b{color:#fff;}
+.hchip.pink{color:#FFC0D8;border-color:rgba(255,192,216,0.4);}
+.h-right{margin-left:auto;flex-shrink:0;font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.45);}
+
+/* ── NAV ── */
+.nav{background:var(--bg3);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.nav-inner{max-width:1480px;margin:0 auto;padding:0 1.5rem;display:flex;}
+.ntab{padding:14px 20px;cursor:pointer;font-size:11px;font-weight:700;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;letter-spacing:0.5px;text-transform:uppercase;font-family:'DM Mono',monospace;}
+.ntab:hover{color:var(--text);}
+.ntab.a{color:var(--bap-dark);border-bottom-color:var(--bap-pink);}
+
+/* ── MAIN ── */
+.main{max-width:1480px;margin:0 auto;padding:1.5rem;}
+.tp{display:none;}
+.tp.a{display:block;}
+
+/* ── SECTION LABEL ── */
+.sl{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--dim);margin:2rem 0 1rem;display:flex;align-items:center;gap:10px;}
+.sl::after{content:'';flex:1;height:1px;background:var(--border2);}
+.sl span{color:var(--muted);}
+
+/* ── BAP HERO ── */
+.bap-hero{background:linear-gradient(135deg,var(--bap) 0%,var(--bap-dark) 100%);border-radius:10px;padding:1.6rem 2rem;margin-bottom:1.5rem;border:none;position:relative;overflow:hidden;}
+.bap-hero::before{content:'BAP';position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);font-size:96px;font-weight:700;color:rgba(255,255,255,0.05);font-family:'Libre Baskerville',serif;pointer-events:none;letter-spacing:-4px;}
+.bap-hero-top{display:flex;align-items:center;gap:12px;margin-bottom:1.2rem;}
+.bap-hero-tag{font-family:'DM Mono',monospace;font-size:10px;background:var(--bap-pink);color:#fff;padding:3px 10px;border-radius:2px;letter-spacing:1px;font-weight:500;}
+.bap-hero-name{font-size:15px;font-weight:700;color:#fff;letter-spacing:0.3px;}
+.bap-hero-desc{font-size:12px;color:rgba(255,255,255,0.60);font-family:'DM Mono',monospace;}
+.bap-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:rgba(255,255,255,0.15);border-radius:6px;overflow:hidden;}
+.bap-kpi{background:rgba(0,0,0,0.18);padding:1rem 1.2rem;}
+.bap-kpi-l{font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.50);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.bap-kpi-v{font-family:'DM Mono',monospace;font-size:22px;font-weight:500;color:#fff;line-height:1;margin-bottom:3px;}
+.bap-kpi-v sup{font-size:11px;color:rgba(255,255,255,0.55);}
+.bap-kpi-s{font-family:'DM Mono',monospace;font-size:10px;}
+.bap-kpi-s.up{color:#80FFD8;} .bap-kpi-s.nt{color:#FFD580;} .bap-kpi-s.dn{color:#FF9090;}
+
+/* ── SOURCE NOTE ── */
+.src-note{font-family:'DM Mono',monospace;font-size:10px;color:var(--dim);padding:6px 12px;background:var(--bg2);border:1px solid var(--border2);border-radius:5px;margin-bottom:1.2rem;display:flex;align-items:center;gap:8px;}
+.src-note b{color:var(--bap-dark);}
+
+/* ── PEER CARDS ── */
+.peer-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:1.5rem;}
+@media(max-width:900px){.peer-row{grid-template-columns:repeat(2,1fr);}}
+.peer-card{background:var(--bg3);padding:1.2rem 1.3rem;position:relative;transition:background .2s;}
+.peer-card:hover{background:var(--bg4);}
+.peer-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.pc-itub::before{background:var(--itub);}
+.pc-nu::before{background:var(--nu);}
+.pc-bbd::before{background:var(--bbd);}
+.pc-intr::before{background:var(--intr);}
+.peer-tk{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.peer-sym{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;}
+.sym-itub{color:var(--itub);} .sym-nu{color:var(--nu);}
+.sym-bbd{color:var(--bbd);} .sym-intr{color:var(--intr);}
+.peer-name{font-size:11px;color:var(--muted);}
+.peer-model{font-size:11px;font-weight:700;color:var(--text);margin-bottom:8px;line-height:1.4;font-style:italic;}
+.peer-stats{display:grid;grid-template-columns:1fr 1fr;gap:5px 10px;}
+.ps-l{font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);}
+.ps-v{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);}
+.ps-v.hi{color:#1D7A47;font-weight:600;}
+.ps-v.lo{color:#D94F3D;}
+.ps-v.ok{color:#B06800;}
+
+/* ── CHART CARDS ── */
+.cr{display:grid;gap:1.2rem;margin-bottom:1.2rem;}
+.cr2{grid-template-columns:1fr 1fr;} .cr3{grid-template-columns:2fr 1fr 1fr;} .cr21{grid-template-columns:2fr 1fr;}
+@media(max-width:900px){.cr2,.cr3,.cr21{grid-template-columns:1fr;}}
+.cc{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1.3rem;}
+.cc.bap-accent{border-top:3px solid var(--bap-pink);}
+.cch{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;}
+.cct{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.3px;text-transform:uppercase;font-family:'DM Mono',monospace;}
+.ccs{font-family:'DM Mono',monospace;font-size:10px;color:var(--dim);margin-top:3px;}
+.badge{font-family:'DM Mono',monospace;font-size:9px;padding:3px 8px;border-radius:2px;letter-spacing:.5px;text-transform:uppercase;}
+.b-teal{background:rgba(90,166,161,.12);color:var(--bap-dark);border:1px solid rgba(90,166,161,.3);}
+.b-pink{background:rgba(233,75,135,.10);color:#B03060;border:1px solid rgba(233,75,135,.25);}
+.b-green{background:rgba(43,174,102,.08);color:#1D7A47;border:1px solid rgba(43,174,102,.2);}
+.b-blue{background:rgba(45,125,210,.08);color:#1A5497;border:1px solid rgba(45,125,210,.2);}
+.b-gold{background:rgba(180,130,0,.08);color:#6B4C00;border:1px solid rgba(180,130,0,.2);}
+.chw{position:relative;}
+.h180{height:180px;} .h220{height:220px;} .h260{height:260px;} .h300{height:300px;} .h340{height:340px;}
+
+/* ── MATRIX TABLE ── */
+.mwrap{overflow-x:auto;}
+.mx{width:100%;border-collapse:collapse;font-size:12px;min-width:820px;}
+.mx th{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);padding:9px 13px;border-bottom:1px solid var(--border);background:var(--bg4);font-weight:500;text-align:left;}
+.mx th.hbap{color:var(--bap-dark);background:var(--bap-pale);border-left:3px solid var(--bap-pink);}
+.mx th.hitub{color:var(--itub);}
+.mx th.hnu{color:var(--nu);}
+.mx th.hbbd{color:var(--bbd);}
+.mx th.hintr{color:var(--intr);}
+.mx td{padding:9px 13px;border-bottom:1px solid var(--border2);color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;}
+.mx td.bap-col{background:var(--bap-pale2);border-left:3px solid rgba(90,166,161,.2);color:var(--bap-dark)!important;font-weight:600;}
+.mx tr:hover td{background:var(--bg4);}
+.mx tr:hover td.bap-col{background:var(--bap-pale);}
+.mx .sr td{background:var(--bg4);color:var(--dim);font-size:9px;text-transform:uppercase;letter-spacing:1.5px;padding:5px 13px;font-weight:700;}
+.mx .mn{color:var(--text)!important;font-weight:500;}
+.best{color:#1D7A47!important;font-weight:600;}
+.warn{color:#D94F3D!important;}
+.ok{color:#B06800!important;}
+
+/* ── STRATEGY ── */
+.strat-wrap{display:grid;grid-template-columns:1fr repeat(4,1fr);gap:1px;background:var(--border2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:1.5rem;}
+@media(max-width:1100px){.strat-wrap{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.strat-wrap{grid-template-columns:1fr;}}
+.strat-col{background:var(--bg3);padding:1.3rem;border-top:3px solid var(--border2);transition:background .2s;}
+.strat-col:hover{background:var(--bg4);}
+.strat-col.bap-s{border-top-color:var(--bap-pink);background:var(--bap-pale2);}
+.strat-col.itub-s{border-top-color:var(--itub);}
+.strat-col.nu-s{border-top-color:var(--nu);}
+.strat-col.bbd-s{border-top-color:var(--bbd);}
+.strat-col.intr-s{border-top-color:var(--intr);}
+.s-tk{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;margin-bottom:3px;}
+.s-tk.bap{color:var(--bap-dark);} .s-tk.itub{color:var(--itub);}
+.s-tk.nu{color:var(--nu);} .s-tk.bbd{color:var(--bbd);} .s-tk.intr{color:var(--intr);}
+.s-model{font-size:12px;font-weight:700;color:var(--text);margin-bottom:8px;line-height:1.35;font-style:italic;}
+.s-body{font-size:11px;color:var(--muted);line-height:1.7;}
+.s-body strong{color:var(--text);font-weight:700;}
+.s-tags{margin-top:10px;display:flex;flex-wrap:wrap;gap:4px;}
+.s-tag{font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;border-radius:2px;text-transform:uppercase;letter-spacing:.3px;}
+
+/* ── DRIVER TABLE ── */
+.driver-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:1.5rem;}
+.driver-table th{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);padding:8px 12px;background:var(--bg4);border-bottom:1px solid var(--border);text-align:left;}
+.driver-table td{padding:10px 12px;border-bottom:1px solid var(--border2);vertical-align:top;}
+.driver-table tr:hover td{background:var(--bg4);}
+.drv-name{font-weight:700;color:var(--text);margin-bottom:3px;font-size:12px;}
+.drv-desc{font-size:11px;color:var(--muted);line-height:1.6;}
+.imp{font-family:'DM Mono',monospace;font-size:10px;padding:2px 8px;border-radius:2px;display:inline-block;}
+.imp-hi{background:rgba(43,174,102,.1);color:#1D7A47;border:1px solid rgba(43,174,102,.2);}
+.imp-md{background:rgba(180,130,0,.08);color:#6B4C00;border:1px solid rgba(180,130,0,.2);}
+.rel-tag{font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;border-radius:2px;margin:2px;display:inline-block;}
+.r-bap{background:var(--bap-pale);color:var(--bap-dark);border:1px solid rgba(90,166,161,.25);}
+.r-itub{background:rgba(236,112,0,.08);color:var(--itub);border:1px solid rgba(236,112,0,.2);}
+.r-nu{background:rgba(130,10,209,.07);color:var(--nu);border:1px solid rgba(130,10,209,.15);}
+.r-bbd{background:rgba(204,0,0,.07);color:var(--bbd);border:1px solid rgba(204,0,0,.15);}
+.r-intr{background:rgba(255,107,43,.07);color:var(--intr);border:1px solid rgba(255,107,43,.15);}
+
+/* ── GUIDANCE ── */
+.guid-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;margin-bottom:1.5rem;}
+.guid-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.guid-hdr{padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border2);}
+.guid-sym{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;}
+.guid-name{font-size:12px;color:var(--muted);}
+.guid-body{padding:10px 0;}
+.guid-row{display:flex;justify-content:space-between;align-items:center;padding:6px 14px;border-bottom:1px solid var(--border2);}
+.guid-row:last-child{border-bottom:none;}
+.guid-m{font-size:11px;color:var(--muted);}
+.guid-v{font-family:'DM Mono',monospace;font-size:12px;color:var(--bap-dark);font-weight:500;}
+.guid-card.bap-g{border-top:3px solid var(--bap-pink);}
+.guid-card.bap-g .guid-v{color:var(--bap-dark);font-weight:600;}
+
+/* ── SCENARIOS ── */
+.scen-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem;margin-bottom:1.5rem;}
+.scen-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.scen-hdr{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border2);}
+.scen-lbl{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:1px;}
+.scen-card.bear .scen-hdr{background:rgba(217,79,61,.05);}
+.scen-card.base .scen-hdr{background:rgba(45,125,210,.05);}
+.scen-card.bull .scen-hdr{background:rgba(43,174,102,.05);}
+.scen-card.bear .scen-lbl{color:var(--bear);}
+.scen-card.base .scen-lbl{color:var(--base);}
+.scen-card.bull .scen-lbl{color:var(--bull);}
+.scen-prob{font-family:'DM Mono',monospace;font-size:10px;color:var(--dim);}
+.scen-body{padding:12px 14px;}
+.scen-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border2);}
+.scen-row:last-child{border-bottom:none;}
+.scen-mn{font-size:11px;color:var(--muted);}
+.scen-mv{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;}
+.scen-card.bear .scen-mv{color:var(--bear);}
+.scen-card.base .scen-mv{color:var(--base);}
+.scen-card.bull .scen-mv{color:var(--bull);}
+.scen-ass{font-size:11px;color:var(--dim);margin-top:8px;line-height:1.6;font-style:italic;padding-top:8px;border-top:1px solid var(--border2);}
+
+/* ── LEGEND ── */
+.leg{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;}
+.li{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);}
+.ld{width:8px;height:8px;border-radius:50%;}
+.ld.sq{border-radius:2px;}
+
+/* ── FOOTER ── */
+.footer{max-width:1480px;margin:0 auto;padding:1rem 1.5rem 2rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;border-top:1px solid var(--border);font-family:'DM Mono',monospace;font-size:10px;color:var(--dim);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.bap-hero,.peer-row,.cc,.scen-card,.guid-card{animation:fadeUp .3s ease both;}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="hdr-inner">
+    <div class="h-brand">
+      <div class="h-badge">BAP</div>
+      <div class="h-title">Credicorp · Competitive Intelligence</div>
+    </div>
+    <div class="h-sep"></div>
+    <div class="h-chips">
+      <span class="hchip pink">Peers: <b>ITUB · NU · BBD · INTR</b></span>
+      <span class="hchip">Fundamentals: <b>NIIF FY2025</b></span>
+      <span class="hchip">Valuation: <b>Yahoo Finance / MacroTrends · Mar 2026</b></span>
+    </div>
+    <div class="h-right">Fuentes oficiales · Mar 2026</div>
+  </div>
+</header>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="ntab a" data-tab="overview">Overview</div>
+    <div class="ntab" data-tab="financials">Financials NIIF</div>
+    <div class="ntab" data-tab="strategy">Estrategia & Drivers</div>
+    <div class="ntab" data-tab="guidance">Guidance & Escenarios</div>
+    <div class="ntab" data-tab="valuation">Valuation</div>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- ═══ OVERVIEW ═══ -->
+<div class="tp a" id="panel-overview">
+
+  <div class="sl">Credicorp (BAP) <span>· FY2025 · Fuente: Earnings Release 4Q25 + 4Q25 Corporate Presentation</span></div>
+  <div class="bap-hero">
+    <div class="bap-hero-top">
+      <div class="bap-hero-tag">NYSE: BAP</div>
+      <div class="bap-hero-name">Credicorp Ltd. · Líder financiero Perú</div>
+      <div class="bap-hero-desc">BCP · Mibanco · Pacifico Seguros · Prima AFP · Atlantic Security · Yape</div>
+    </div>
+    <div class="bap-kpis">
+      <div class="bap-kpi">
+        <div class="bap-kpi-l">ROE FY2025</div>
+        <div class="bap-kpi-v">19.0<sup>%</sup></div>
+        <div class="bap-kpi-s nt">18.6% ex-Banmédica</div>
+      </div>
+      <div class="bap-kpi">
+        <div class="bap-kpi-l">Net Income FY2025</div>
+        <div class="bap-kpi-v">S/6,925<sup>mm</sup></div>
+        <div class="bap-kpi-s up">↑ +25.9% YoY</div>
+      </div>
+      <div class="bap-kpi">
+        <div class="bap-kpi-l">Efficiency FY2025</div>
+        <div class="bap-kpi-v">46.6<sup>%</sup></div>
+        <div class="bap-kpi-s nt">In-line con guidance</div>
+      </div>
+      <div class="bap-kpi">
+        <div class="bap-kpi-l">NIM Q4 2025</div>
+        <div class="bap-kpi-v">6.62<sup>%</sup></div>
+        <div class="bap-kpi-s up">↑ +28bps YoY</div>
+      </div>
+      <div class="bap-kpi">
+        <div class="bap-kpi-l">NPL Q4 2025</div>
+        <div class="bap-kpi-v">4.5<sup>%</sup></div>
+        <div class="bap-kpi-s up">↓ −71bps YoY</div>
+      </div>
+      <div class="bap-kpi">
+        <div class="bap-kpi-l">Risk-Adj NIM Q4</div>
+        <div class="bap-kpi-v">5.55<sup>%</sup></div>
+        <div class="bap-kpi-s up">↑ Récord histórico</div>
+      </div>
+      <div class="bap-kpi">
+        <div class="bap-kpi-l">CET1 (BCP IFRS)</div>
+        <div class="bap-kpi-v">14.0<sup>%</sup></div>
+        <div class="bap-kpi-s up">Sólido buffer</div>
+      </div>
+      <div class="bap-kpi">
+        <div class="bap-kpi-l">Cost of Risk FY25</div>
+        <div class="bap-kpi-v">1.8<sup>%</sup></div>
+        <div class="bap-kpi-s up">↓ vs 2.4% FY2024</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="src-note">
+    📊 <span>Valuation peers: <b>MacroTrends + Yahoo Finance</b> · Fuente única · Mar 2026 · Fundamentals: Earnings releases oficiales FY2025 (NIIF)</span>
+  </div>
+
+  <div class="sl">Peers Brasileros <span>· Snapshot FY2025 · Fuente: Earnings releases oficiales</span></div>
+  <div class="peer-row">
+    <div class="peer-card pc-itub">
+      <div class="peer-tk"><span class="peer-sym sym-itub">ITUB</span><span class="peer-name">Itaú Unibanco</span></div>
+      <div class="peer-model">Universal Bank Premium. Benchmark ROE LatAm.</div>
+      <div class="peer-stats">
+        <div><div class="ps-l">ROE FY25</div><div class="ps-v hi">24.4%</div></div>
+        <div><div class="ps-l">Efficiency</div><div class="ps-v hi">38.9%</div></div>
+        <div><div class="ps-l">NPL 90+</div><div class="ps-v hi">1.9%</div></div>
+        <div><div class="ps-l">NI FY25</div><div class="ps-v">R$46.8bn</div></div>
+        <div><div class="ps-l">NIM (BR)</div><div class="ps-v">9.7%</div></div>
+        <div><div class="ps-l">CET1</div><div class="ps-v ok">12.3%</div></div>
+      </div>
+    </div>
+    <div class="peer-card pc-nu">
+      <div class="peer-tk"><span class="peer-sym sym-nu">NU</span><span class="peer-name">Nubank</span></div>
+      <div class="peer-model">Zero-branch AI-first. ROE 33% — supera a ITUB.</div>
+      <div class="peer-stats">
+        <div><div class="ps-l">ROE FY25</div><div class="ps-v hi">~29%/33%Q4</div></div>
+        <div><div class="ps-l">Efficiency</div><div class="ps-v hi">19.9%</div></div>
+        <div><div class="ps-l">NPL 90+</div><div class="ps-v lo">6.6%</div></div>
+        <div><div class="ps-l">NI FY25</div><div class="ps-v">$2.9bn USD</div></div>
+        <div><div class="ps-l">R-Adj NIM</div><div class="ps-v">10.5%</div></div>
+        <div><div class="ps-l">Clientes</div><div class="ps-v">131M</div></div>
+      </div>
+    </div>
+    <div class="peer-card pc-bbd">
+      <div class="peer-tk"><span class="peer-sym sym-bbd">BBD</span><span class="peer-name">Bradesco</span></div>
+      <div class="peer-model">Turnaround 8Q. Gap ROE con ITUB: 9pp.</div>
+      <div class="peer-stats">
+        <div><div class="ps-l">ROAE FY25</div><div class="ps-v ok">13.5%/15.2%Q4</div></div>
+        <div><div class="ps-l">Efficiency</div><div class="ps-v lo">50.0%</div></div>
+        <div><div class="ps-l">NPL 90+</div><div class="ps-v ok">4.1%</div></div>
+        <div><div class="ps-l">NI FY25</div><div class="ps-v">R$24.7bn</div></div>
+        <div><div class="ps-l">NI Growth</div><div class="ps-v hi">+26.1%</div></div>
+        <div><div class="ps-l">Seg. ROE</div><div class="ps-v hi">21.9%</div></div>
+      </div>
+    </div>
+    <div class="peer-card pc-intr">
+      <div class="peer-tk"><span class="peer-sym sym-intr">INTR</span><span class="peer-name">Inter&Co</span></div>
+      <div class="peer-model">Super App. Plan 60/30/30. Inflection ROE>15%.</div>
+      <div class="peer-stats">
+        <div><div class="ps-l">ROE Q4 25</div><div class="ps-v ok">&gt;15% (hito)</div></div>
+        <div><div class="ps-l">Efficiency</div><div class="ps-v ok">45.5%</div></div>
+        <div><div class="ps-l">NPL 90+</div><div class="ps-v ok">4.7%</div></div>
+        <div><div class="ps-l">NI FY25</div><div class="ps-v">R$1.3bn</div></div>
+        <div><div class="ps-l">Loan Gr.</div><div class="ps-v hi">+36% YoY</div></div>
+        <div><div class="ps-l">NIM 2.0</div><div class="ps-v">9.57%</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sl">Mapa Estratégico <span>· ROE vs. Eficiencia · BAP resaltado</span></div>
+  <div class="cr cr2">
+    <div class="cc bap-accent">
+      <div class="cch"><div><div class="cct">ROE vs. Efficiency — Cuadrante estratégico</div><div class="ccs">Ideal = arriba-izquierda · Burbuja = Net Income absoluto</div></div><span class="badge b-teal">Core view</span></div>
+      <div class="chw h300"><canvas id="ch-quad"></canvas></div>
+      <div class="leg" style="margin-top:10px">
+        <div class="li"><div class="ld sq" style="background:var(--bap)"></div>BAP (ref.)</div>
+        <div class="li"><div class="ld" style="background:var(--itub)"></div>ITUB</div>
+        <div class="li"><div class="ld" style="background:var(--nu)"></div>NU</div>
+        <div class="li"><div class="ld" style="background:var(--bbd)"></div>BBD</div>
+        <div class="li"><div class="ld" style="background:var(--intr)"></div>INTR</div>
+      </div>
+    </div>
+    <div class="cc">
+      <div class="cch"><div><div class="cct">ROE Comparativo Q1–Q4 2025</div><div class="ccs">BAP quarterly estimado · Peers: earnings oficiales</div></div><span class="badge b-gold">Quarterly</span></div>
+      <div class="chw h300"><canvas id="ch-roe-qtr"></canvas></div>
+    </div>
+  </div>
+  <div class="cr cr3">
+    <div class="cc">
+      <div class="cch"><div><div class="cct">NPL 90+ vs. Risk-Adj NIM</div><div class="ccs">Calidad crediticia vs. spread real post-ECL</div></div></div>
+      <div class="chw h220"><canvas id="ch-npl-nim"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cch"><div><div class="cct">Efficiency Ratio (%)</div><div class="ccs">FY2025 · Menor = mejor</div></div></div>
+      <div class="chw h220"><canvas id="ch-eff"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cch"><div><div class="cct">Loan Growth YoY (%)</div></div></div>
+      <div class="chw h220"><canvas id="ch-loan"></canvas></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ FINANCIALS ═══ -->
+<div class="tp" id="panel-financials">
+  <div class="sl">Matriz Comparativa NIIF · FY2025 <span>· Fuentes oficiales: Earnings releases / 20-F / 6-K</span></div>
+  <div class="src-note">📊 <b>Fuentes:</b> BAP: Earnings Release 4Q25 (Feb 2026) · ITUB: 6-K Feb 2026 · NU: 6-K Feb 2026 · BBD: 6-K Feb 2026 · INTR: 6-K Feb 2026 · Todos bajo NIIF</div>
+  <div class="cc" style="margin-bottom:1.5rem">
+    <div class="mwrap">
+      <table class="mx">
+        <thead>
+          <tr>
+            <th>Métrica</th>
+            <th class="hbap">BAP · Credicorp</th>
+            <th class="hitub">ITUB · Itaú</th>
+            <th class="hnu">NU · Nubank</th>
+            <th class="hbbd">BBD · Bradesco</th>
+            <th class="hintr">INTR · Inter</th>
+            <th>Nota NIIF</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="sr"><td colspan="7">RENTABILIDAD</td></tr>
+          <tr><td class="mn">ROE FY2025 / Mejor Q</td><td class="bap-col">19.0% / 20.9%¹</td><td><b class="best">24.4% / 26%</b></td><td><b class="best">~29% / 33%</b></td><td class="warn">13.5% / 15.2%</td><td class="ok">~12% / &gt;15%</td><td>¹BAP: excl. Banmédica = 18.6%</td></tr>
+          <tr><td class="mn">Net Income FY2025</td><td class="bap-col"><b>S/6,925mm</b></td><td><b class="best">R$46.8bn</b></td><td>$2.9bn USD</td><td>R$24.7bn</td><td>R$1.3bn</td><td>NIIF-10 consolidado</td></tr>
+          <tr><td class="mn">NI Growth YoY</td><td class="bap-col">+25.9%</td><td>+13.1%</td><td><b class="best">+45%</b></td><td>+26.1%</td><td>+45%</td><td></td></tr>
+          <tr class="sr"><td colspan="7">EFICIENCIA OPERATIVA</td></tr>
+          <tr><td class="mn">Efficiency Ratio FY2025</td><td class="bap-col ok">46.6%</td><td>38.9%</td><td><b class="best">19.9%</b></td><td class="warn">50.0%</td><td>45.5%</td><td>Gastos / Ingresos totales</td></tr>
+          <tr><td class="mn">Target eficiencia (mgmt)</td><td class="bap-col">45–46.5% (2026g)</td><td>&lt;38% (BR)</td><td>&lt;20%</td><td>40% (2028)</td><td>30% (2027)</td><td></td></tr>
+          <tr class="sr"><td colspan="7">MARGEN FINANCIERO (NIIF-9 EIR)</td></tr>
+          <tr><td class="mn">NIM Q4 2025</td><td class="bap-col"><b>6.62%</b></td><td>9.7% (BR)</td><td>~17% nominal</td><td>~7.2%</td><td>9.57%</td><td>EIR NIIF-9</td></tr>
+          <tr><td class="mn">Risk-Adjusted NIM</td><td class="bap-col best">5.55% (récord)</td><td>6.6%</td><td><b class="best">10.5%</b></td><td>~4.5%</td><td>5.92%</td><td>Post ECL — comparable real</td></tr>
+          <tr><td class="mn">NII Growth YoY</td><td class="bap-col">+4.3% FY25</td><td>+12.1%</td><td><b class="best">+30%</b></td><td>+14.5%</td><td>+42%</td><td></td></tr>
+          <tr class="sr"><td colspan="7">CALIDAD CREDITICIA (NIIF-9 ECL)</td></tr>
+          <tr><td class="mn">NPL 90+ (Q4 2025)</td><td class="bap-col ok">4.5%</td><td><b class="best">1.9%</b></td><td class="warn">6.6%</td><td class="ok">4.1%</td><td class="ok">4.7%</td><td>Stage 3 / Total cartera</td></tr>
+          <tr><td class="mn">Cost of Risk FY2025</td><td class="bap-col hi">1.8%</td><td><b class="best">2.5%</b></td><td class="warn">~5.5%</td><td>3.2%</td><td>5.3%</td><td>ECL provision ratio</td></tr>
+          <tr><td class="mn">Coverage NPL</td><td class="bap-col">112.4%</td><td>~130%</td><td>~110%</td><td>103%</td><td><b class="best">141%</b></td><td></td></tr>
+          <tr class="sr"><td colspan="7">CRECIMIENTO</td></tr>
+          <tr><td class="mn">Loan Growth YoY (EOP adj.)</td><td class="bap-col">+8.5% FX neutral</td><td>+6.0%</td><td><b class="best">~50% FXN</b></td><td>+11.0%</td><td>+36%</td><td></td></tr>
+          <tr><td class="mn">Revenue Growth YoY</td><td class="bap-col">core income +6.4%</td><td>+8.7%</td><td><b class="best">+45% FXN</b></td><td>+8.6%</td><td>+44%</td><td></td></tr>
+          <tr class="sr"><td colspan="7">CAPITAL BASILEA III</td></tr>
+          <tr><td class="mn">CET1</td><td class="bap-col best">14.0% (BCP IFRS)</td><td>12.3%</td><td><b class="best">~15%+</b></td><td class="ok">~11%</td><td>~13%</td><td></td></tr>
+          <tr><td class="mn">Dividend Payout (aprox.)</td><td class="bap-col">~45%</td><td><b class="best">72%</b></td><td>20%</td><td>~35%</td><td>20%</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sl">Charts de Performance</div>
+  <div class="cr cr2">
+    <div class="cc bap-accent">
+      <div class="cch"><div><div class="cct">Risk-Adj NIM vs. Cost of Risk (%)</div><div class="ccs">Spread real post NIIF-9 ECL · BAP récord histórico</div></div><span class="badge b-teal">Clave</span></div>
+      <div class="chw h240"><canvas id="ch-nim-cor"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cch"><div><div class="cct">NPL 90+ Comparativo (%)</div><div class="ccs">Q4 2025 · calidad crediticia</div></div></div>
+      <div class="chw h240"><canvas id="ch-npl-bar"></canvas></div>
+    </div>
+  </div>
+  <div class="cr cr2">
+    <div class="cc">
+      <div class="cch"><div><div class="cct">Efficiency Ratio: Trayectoria 2022→2025→Target</div><div class="ccs">Cada banco hacia su objetivo</div></div></div>
+      <div class="chw h260"><canvas id="ch-eff-traj"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cch"><div><div class="cct">Net Income FY2025 (moneda local bn)</div><div class="ccs">BAP en S/, BR banks en R$, NU en USD</div></div></div>
+      <div class="chw h260"><canvas id="ch-ni-abs"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ STRATEGY ═══ -->
+<div class="tp" id="panel-strategy">
+  <div class="sl">Tesis Estratégica · 5 Bancos <span>· Cada peer analizado en función de qué le dice a BAP</span></div>
+  <div class="strat-wrap">
+    <div class="strat-col bap-s">
+      <div class="s-tk bap">BAP · NYSE</div>
+      <div class="s-model">Conglomerado financiero diversificado. Líder indiscutido en Perú.</div>
+      <div class="s-body">
+        <strong>Ventaja duradera:</strong> Posición dominante en Perú (BCP ~30% share créditos). Único player con escala en banca, seguros, AFP y microfinanzas simultáneamente. Mibanco = líder microcrédito LatAm.<br><br>
+        <strong>FY2025 destacado:</strong> Risk-Adj NIM en récord (5.55%), NPL mejorando (−71bps YoY a 4.5%), CoR cayó a 1.8%. NI creció 25.9%. ROE 19% con Banmédica. Yape llegó a 15.9M MAU (7.2% de risk-adj revenue).<br><br>
+        <strong>Gap vs peers BR:</strong> ROE 19% vs ITUB 24.4% — la brecha de 5.4pp es el tema central IR. El mercado descuenta menor escala, pero BAP tiene NIM más alto que ITUB (6.62% vs 9.7% BR — contexto diferente).<br><br>
+        <strong>Catalizador 2026:</strong> Reducción tasas BCRP, Yape escalando crédito, Helm Bank (Colombia), eficiencia mejorando.
+      </div>
+      <div class="s-tags">
+        <span class="s-tag" style="background:var(--bap-pale);color:var(--bap-dark);border:1px solid rgba(90,166,161,.3)">Líder Perú</span>
+        <span class="s-tag" style="background:rgba(233,75,135,.1);color:#B03060;border:1px solid rgba(233,75,135,.25)">Yape 15.9M</span>
+        <span class="s-tag" style="background:rgba(43,174,102,.08);color:#1D7A47;border:1px solid rgba(43,174,102,.2)">NIM récord 5.55%</span>
+      </div>
+    </div>
+    <div class="strat-col itub-s">
+      <div class="s-tk itub">ITUB · NYSE</div>
+      <div class="s-model">El benchmark. Cuando un inversor evalúa BAP, ITUB es el denominador.</div>
+      <div class="s-body">
+        <strong>Por qué importa para BAP:</strong> ROE 24.4% vs BAP 19% — esta brecha de 5.4pp es la pregunta que todo analyst hace. ITUB tiene NPL 1.9% (vs BAP 4.5%), eficiencia 38.9% (vs BAP 46.6%). El mercado paga 10x P/E por ITUB vs ~13.6x por BAP — inversión del premium típico.<br><br>
+        <strong>Modelo:</strong> Mix deliberado alto ingreso. 47% mortgage share privados. 1,300+ IA models. Super App 15M migrados.<br><br>
+        <strong>Señal para BAP:</strong> ITUB prueba que el camino a ROE 24%+ desde banco tradicional es posible — tarda 10 años de disciplina de capital.
+      </div>
+      <div class="s-tags">
+        <span class="s-tag" style="background:rgba(236,112,0,.08);color:var(--itub);border:1px solid rgba(236,112,0,.2)">ROE 24.4%</span>
+        <span class="s-tag" style="background:rgba(43,174,102,.08);color:#1D7A47;border:1px solid rgba(43,174,102,.2)">NPL 1.9%</span>
+        <span class="s-tag" style="background:rgba(236,112,0,.08);color:var(--itub);border:1px solid rgba(236,112,0,.2)">72% payout</span>
+      </div>
+    </div>
+    <div class="strat-col nu-s">
+      <div class="s-tk nu">NU · NYSE</div>
+      <div class="s-model">El disruptor rentable. ROE 33%. La amenaza de largo plazo para todo el sistema.</div>
+      <div class="s-body">
+        <strong>Por qué importa para BAP:</strong> NU prueba que $0.80/cliente/mes es viable a escala. Yape compite directamente donde NU creció. Si NU entra a Perú con licencia bancaria completa, enfrenta a BAP con estructura de costos 5x más eficiente.<br><br>
+        <strong>Defensa de BAP:</strong> Profundizar Yape → crédito → seguros → AFP antes de que un player digital lo haga. Mibanco digital es urgente. La data de Yape (transacciones) es la ventaja competitiva más valiosa.<br><br>
+        <strong>Validación:</strong> NPL 6.6% de NU confirma que crédito digital unsecured en EMs tiene límites — valida modelo secured de BCP.
+      </div>
+      <div class="s-tags">
+        <span class="s-tag" style="background:rgba(130,10,209,.07);color:var(--nu);border:1px solid rgba(130,10,209,.15)">ROE 33%</span>
+        <span class="s-tag" style="background:rgba(217,79,61,.08);color:#A63424;border:1px solid rgba(217,79,61,.2)">NPL 6.6%</span>
+        <span class="s-tag" style="background:rgba(130,10,209,.07);color:var(--nu);border:1px solid rgba(130,10,209,.15)">Eff 19.9%</span>
+      </div>
+    </div>
+    <div class="strat-col bbd-s">
+      <div class="s-tk bbd">BBD · NYSE</div>
+      <div class="s-model">El espejo de BAP: turnaround en marcha, seguros como motor oculto.</div>
+      <div class="s-body">
+        <strong>Por qué importa para BAP:</strong> Bradesco es el más parecido a BAP en situación — ROE por debajo del CoE hasta 2023, transformación digital en curso, seguros como motor de valor oculto. Bradesco Seguros (ROE 21.9%) = Pacifico para BAP.<br><br>
+        <strong>Lección:</strong> 8 trimestres de mejora consistente son suficientes para re-rating. BAP necesita narrar su propio plan con KPIs anuales específicos para el mercado.<br><br>
+        <strong>Diferencia clave:</strong> BBD mejora eficiencia desde 50% → 40% (2028). BAP desde 46.6% → 45–46.5% (2026). BAP en mejor punto de partida.
+      </div>
+      <div class="s-tags">
+        <span class="s-tag" style="background:rgba(204,0,0,.07);color:var(--bbd);border:1px solid rgba(204,0,0,.15)">Turnaround</span>
+        <span class="s-tag" style="background:rgba(180,130,0,.08);color:#6B4C00;border:1px solid rgba(180,130,0,.2)">Seg. ROE 22%</span>
+      </div>
+    </div>
+    <div class="strat-col intr-s">
+      <div class="s-tk intr">INTR · NASDAQ</div>
+      <div class="s-model">El stage más comparable al journey de Yape → BCP digital.</div>
+      <div class="s-body">
+        <strong>Por qué importa para BAP:</strong> Inter es el benchmark más cercano al journey que Yape necesita recorrer: billetera → crédito → plataforma completa. Inter pasó de 0% ROE a 15%+ en 4 años. El plan 60/30/30 es el tipo de framework público con KPIs que BAP debería comunicar para Yape.<br><br>
+        <strong>Lección:</strong> Loan growth +36% con NPL controlado muestra que expansión agresiva en digital es posible con underwriting disciplinado — pero payroll seasoning (NPL 4.7%↑) es la señal de riesgo a monitorear.<br><br>
+        <strong>Riesgo compartido:</strong> CoR guidance 2026: 5.5–6%. Confirma límites del crédito digital sin colateral.
+      </div>
+      <div class="s-tags">
+        <span class="s-tag" style="background:rgba(255,107,43,.07);color:var(--intr);border:1px solid rgba(255,107,43,.15)">60/30/30</span>
+        <span class="s-tag" style="background:rgba(43,174,102,.08);color:#1D7A47;border:1px solid rgba(43,174,102,.2)">ROE inflection</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sl">Drivers Estratégicos <span>· Relevancia directa para BAP/Credicorp</span></div>
+  <div class="cc" style="margin-bottom:1.5rem">
+    <table class="driver-table">
+      <thead>
+        <tr><th style="width:18%">Driver</th><th style="width:28%">Señal sector BR</th><th style="width:28%">Implicancia para BAP</th><th style="width:12%">Impacto</th><th style="width:14%">Relevancia</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><div class="drv-name">Digitalización & Monetización</div><div class="drv-desc">NU 131M · Inter 43M · ITUB Super App 15M. ARPAC NU: $15/mes (+27%).</div></td><td><div class="drv-desc">Escala digital = umbral mínimo. Quien no convierte digitalmente pierde fee income y share of wallet. Inter demostró: billetera → crédito en 4 años.</div></td><td><div class="drv-desc">Yape (15.9M MAU, 7.2% risk-adj revenue, 23% lending share Q4). El reto: acelerar la monetización de crédito. Timeline crítico: 2026–2027.</div></td><td><span class="imp imp-hi">Alto positivo</span></td><td><span class="rel-tag r-bap">BAP</span><span class="rel-tag r-nu">NU</span><span class="rel-tag r-intr">INTR</span></td></tr>
+        <tr><td><div class="drv-name">Ciclo de tasas</div><div class="drv-desc">Selic BR: cortes desde May 2026 guidance. BCRP Perú: reducción gradual esperada en 2026.</div></td><td><div class="drv-desc">ITUB advierte compresión NIM 2026 pese a ser el más eficiente. Net interest margin with clients ligeramente comprimido en Q4 (9.0%→8.9%).</div></td><td><div class="drv-desc">BAP guía NIM 6.4–6.7% 2026 (vs 6.62% Q4). Reducción tasas reduce delinquency (positivo CoR) pero comprime spreads. BAP net: neutral a levemente positivo por mejora calidad.</div></td><td><span class="imp imp-md">Moderado</span></td><td><span class="rel-tag r-bap">BAP</span><span class="rel-tag r-itub">ITUB</span><span class="rel-tag r-bbd">BBD</span></td></tr>
+        <tr><td><div class="drv-name">Expansión crédito Retail/SME</div><div class="drv-desc">Inter mortgages +48%, ITUB SME fuerte. BBD SME market share: 16.6%.</div></td><td><div class="drv-desc">Segmento de mayor NIM y mayor crecimiento. BR demuestra que digitalizar originación SME es ejecutable con NPL controlado si el underwriting es disciplinado.</div></td><td><div class="drv-desc">Mibanco + BCP Retail son motores de loan growth BAP. Guidance 2026: +8.5% EOP. Si BAP digitaliza originación Mibanco (Inter-style), el múltiplo de valuación debería subir.</div></td><td><span class="imp imp-hi">Alto positivo</span></td><td><span class="rel-tag r-bap">BAP</span><span class="rel-tag r-intr">INTR</span><span class="rel-tag r-bbd">BBD</span></td></tr>
+        <tr><td><div class="drv-name">AI & Eficiencia operativa</div><div class="drv-desc">ITUB: efficiency 45%→38.9% en 4 años con IA. NU: 19.9% estructural.</div></td><td><div class="drv-desc">La compresión de costos vía IA es medible y sostenible. ITUB: incidentes críticos −99%, delivery +2,600%. BBD: BIA GenAI 1.6M interacciones/mes, 90% resolución, costos −40x.</div></td><td><div class="drv-desc">BAP efficiency 46.6% → target 45–46.5% (2026). El benchmark es claro: ITUB tardó 4 años en bajar 6pp. BAP necesita articular roadmap con milestones anuales públicos para que el mercado vea el path.</div></td><td><span class="imp imp-hi">Alto</span></td><td><span class="rel-tag r-bap">BAP</span><span class="rel-tag r-itub">ITUB</span><span class="rel-tag r-nu">NU</span></td></tr>
+        <tr><td><div class="drv-name">Calidad crediticia normalización</div><div class="drv-desc">ITUB NPL 1.9% · BBD estabilizado 4.1% · BAP NPL 4.5% (-71bps YoY). CoR BAP cayó a 1.8%.</div></td><td><div class="drv-desc">El ciclo de delinquencia en Brasil normalizó. ITUB demuestra que NPL sub-2% es alcanzable con mix premium. Risk-Adj NIM expansión es consecuencia directa de mejor calidad.</div></td><td><div class="drv-desc">BAP NPL mejorando rápido — ya en 4.5% y guidance CoR 1.7–2.1% para 2026. Risk-Adj NIM en récord histórico 5.55%. Esta trayectoria es el catalizador de re-rating más concreto para BAP.</div></td><td><span class="imp imp-hi">Catalizador IR</span></td><td><span class="rel-tag r-bap">BAP</span><span class="rel-tag r-itub">ITUB</span><span class="rel-tag r-bbd">BBD</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ GUIDANCE & SCENARIOS ═══ -->
+<div class="tp" id="panel-guidance">
+
+  <div class="sl">Guidance 2026 <span>· Mgmt oficial · Fuentes: Earnings calls oficiales</span></div>
+  <div class="guid-grid">
+    <div class="guid-card bap-g">
+      <div class="guid-hdr"><span class="guid-sym" style="color:var(--bap-dark)">BAP</span><span class="guid-name">· Credicorp — Guidance 2026 oficial</span></div>
+      <div class="guid-body">
+        <div class="guid-row"><span class="guid-m">Loan Growth (EOP)</span><span class="guid-v">~+8.5%</span></div>
+        <div class="guid-row"><span class="guid-m">NIM</span><span class="guid-v">6.4%–6.7%</span></div>
+        <div class="guid-row"><span class="guid-m">Cost of Risk</span><span class="guid-v">1.7%–2.1%</span></div>
+        <div class="guid-row"><span class="guid-m">Risk-Adjusted NIM</span><span class="guid-v">5.3%–5.6%</span></div>
+        <div class="guid-row"><span class="guid-m">Efficiency Ratio</span><span class="guid-v">45.0%–46.5%</span></div>
+        <div class="guid-row"><span class="guid-m">ROE target</span><span class="guid-v">~19.5%</span></div>
+        <div class="guid-row"><span class="guid-m">Fee income growth</span><span class="guid-v">Low double digits</span></div>
+        <div class="guid-row"><span class="guid-m">GDP Perú (macro)</span><span class="guid-v">~+3.5%</span></div>
+      </div>
+    </div>
+    <div class="guid-card">
+      <div class="guid-hdr"><span class="guid-sym" style="color:var(--itub)">ITUB</span><span class="guid-name">· Itaú — Guidance 2026</span></div>
+      <div class="guid-body">
+        <div class="guid-row"><span class="guid-m">Credit Portfolio</span><span class="guid-v">+5.5%–9.5%</span></div>
+        <div class="guid-row"><span class="guid-m">NII with Clients</span><span class="guid-v">+5.0%–9.0%</span></div>
+        <div class="guid-row"><span class="guid-m">Cost of Credit</span><span class="guid-v">R$38.5–43.5bn</span></div>
+        <div class="guid-row"><span class="guid-m">Non-Int Expenses</span><span class="guid-v">+5.0%–9.0%</span></div>
+        <div class="guid-row"><span class="guid-m">Selic año-fin</span><span class="guid-v">12.75% (cortes May)</span></div>
+        <div class="guid-row"><span class="guid-m">Brazil GDP</span><span class="guid-v">1.9%</span></div>
+      </div>
+    </div>
+    <div class="guid-card">
+      <div class="guid-hdr"><span class="guid-sym" style="color:var(--nu)">NU</span><span class="guid-name">· Nubank — Plan 2026</span></div>
+      <div class="guid-body">
+        <div class="guid-row"><span class="guid-m">Postura 2026</span><span class="guid-v">Año de inversión</span></div>
+        <div class="guid-row"><span class="guid-m">Efficiency ratio</span><span class="guid-v">↑ temporalmente</span></div>
+        <div class="guid-row"><span class="guid-m">US expansion</span><span class="guid-v">Nubank N.A. (OCC)</span></div>
+        <div class="guid-row"><span class="guid-m">AI integration</span><span class="guid-v">AI-native banking</span></div>
+        <div class="guid-row"><span class="guid-m">ROE mediano plazo</span><span class="guid-v">Mejora post-inversión</span></div>
+        <div class="guid-row"><span class="guid-m">Revenue growth</span><span class="guid-v">Continúa acelerando</span></div>
+      </div>
+    </div>
+    <div class="guid-card">
+      <div class="guid-hdr"><span class="guid-sym" style="color:var(--bbd)">BBD</span><span class="guid-name">· Bradesco — Guidance 2026</span></div>
+      <div class="guid-body">
+        <div class="guid-row"><span class="guid-m">ROE target 2026</span><span class="guid-v">&gt;17%</span></div>
+        <div class="guid-row"><span class="guid-m">Efficiency target</span><span class="guid-v">40% (2028)</span></div>
+        <div class="guid-row"><span class="guid-m">Loan growth</span><span class="guid-v">Continúa doble dígito</span></div>
+        <div class="guid-row"><span class="guid-m">Clientes digitales</span><span class="guid-v">~40M (2026)</span></div>
+        <div class="guid-row"><span class="guid-m">CET1 objetivo</span><span class="guid-v">~11%</span></div>
+      </div>
+    </div>
+    <div class="guid-card">
+      <div class="guid-hdr"><span class="guid-sym" style="color:var(--intr)">INTR</span><span class="guid-name">· Inter — Plan 60/30/30</span></div>
+      <div class="guid-body">
+        <div class="guid-row"><span class="guid-m">ROE target</span><span class="guid-v">30% (2027)</span></div>
+        <div class="guid-row"><span class="guid-m">Efficiency target</span><span class="guid-v">30% (2027)</span></div>
+        <div class="guid-row"><span class="guid-m">Cost of Risk 2026</span><span class="guid-v">5.5%–6.0%</span></div>
+        <div class="guid-row"><span class="guid-m">US branch</span><span class="guid-v">Operativo 2026</span></div>
+        <div class="guid-row"><span class="guid-m">Dividend payout</span><span class="guid-v">~20%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sl">Escenarios Consenso Sell-Side <span>· BAP FY2026e · Basado en Bloomberg/FactSet estimados</span></div>
+  <div class="scen-grid">
+    <div class="scen-card bear">
+      <div class="scen-hdr"><span class="scen-lbl">🐻 Escenario Pesimista</span><span class="scen-prob">Prob: ~20%</span></div>
+      <div class="scen-body">
+        <div class="scen-row"><span class="scen-mn">ROE</span><span class="scen-mv">17.0–18.0%</span></div>
+        <div class="scen-row"><span class="scen-mn">Net Income (S/mm)</span><span class="scen-mv">6,600–7,000</span></div>
+        <div class="scen-row"><span class="scen-mn">Loan Growth</span><span class="scen-mv">+5–7%</span></div>
+        <div class="scen-row"><span class="scen-mn">NPL</span><span class="scen-mv">4.8–5.2%</span></div>
+        <div class="scen-row"><span class="scen-mn">NIM</span><span class="scen-mv">6.2–6.4%</span></div>
+        <div class="scen-row"><span class="scen-mn">P/E implícito</span><span class="scen-mv">~10–11x</span></div>
+        <div class="scen-ass">Economía política deteriora confianza empresarial. Ciclo crédito no normaliza. Yape no logra monetizar crédito a escala. BCRP más lento de lo esperado.</div>
+      </div>
+    </div>
+    <div class="scen-card base">
+      <div class="scen-hdr"><span class="scen-lbl">📊 Escenario Base</span><span class="scen-prob">Prob: ~55%</span></div>
+      <div class="scen-body">
+        <div class="scen-row"><span class="scen-mn">ROE</span><span class="scen-mv">19.0–20.0%</span></div>
+        <div class="scen-row"><span class="scen-mn">Net Income (S/mm)</span><span class="scen-mv">7,100–7,500</span></div>
+        <div class="scen-row"><span class="scen-mn">Loan Growth</span><span class="scen-mv">+8–9%</span></div>
+        <div class="scen-row"><span class="scen-mn">NPL</span><span class="scen-mv">4.0–4.4%</span></div>
+        <div class="scen-row"><span class="scen-mn">NIM</span><span class="scen-mv">6.4–6.7%</span></div>
+        <div class="scen-row"><span class="scen-mn">P/E implícito</span><span class="scen-mv">~12–14x</span></div>
+        <div class="scen-ass">Recuperación gradual ciclo peruano. BCRP recorta 50–100bps. NPL continúa mejorando. Yape escala crédito. Eficiencia mejora 1pp. In-line con guidance mgmt.</div>
+      </div>
+    </div>
+    <div class="scen-card bull">
+      <div class="scen-hdr"><span class="scen-lbl">🚀 Escenario Optimista</span><span class="scen-prob">Prob: ~25%</span></div>
+      <div class="scen-body">
+        <div class="scen-row"><span class="scen-mn">ROE</span><span class="scen-mv">20.5–22.0%</span></div>
+        <div class="scen-row"><span class="scen-mn">Net Income (S/mm)</span><span class="scen-mv">7,600–8,200</span></div>
+        <div class="scen-row"><span class="scen-mn">Loan Growth</span><span class="scen-mv">+10–12%</span></div>
+        <div class="scen-row"><span class="scen-mn">NPL</span><span class="scen-mv">3.6–4.0%</span></div>
+        <div class="scen-row"><span class="scen-mn">NIM</span><span class="scen-mv">6.6–7.0%</span></div>
+        <div class="scen-row"><span class="scen-mn">P/E implícito</span><span class="scen-mv">~14–16x</span></div>
+        <div class="scen-ass">Perú GDP supera 4%. BCRP agresivo. Yape escala crédito con bajo NPL. Helm Bank (Colombia) contribuye. Re-rating múltiplo por cierre del gap ROE vs ITUB.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sl">Proyección ROE <span>· BAP vs ITUB (benchmark) · 2021–2026e</span></div>
+  <div class="cc bap-accent" style="margin-bottom:1.5rem">
+    <div class="cch"><div><div class="cct">ROE Histórico y Proyectado — BAP vs ITUB</div><div class="ccs">Escenarios pesimista / base / optimista para BAP · ITUB como referencia · Datos históricos verificados</div></div><span class="badge b-teal">Escenarios</span></div>
+    <div class="chw h300"><canvas id="ch-scen"></canvas></div>
+    <div class="leg" style="margin-top:10px">
+      <div class="li"><div class="ld sq" style="background:var(--bap)"></div>BAP Base</div>
+      <div class="li"><div class="ld sq" style="background:var(--bear);opacity:.7"></div>BAP Bear</div>
+      <div class="li"><div class="ld sq" style="background:var(--bull);opacity:.7"></div>BAP Bull</div>
+      <div class="li"><div class="ld" style="background:var(--itub)"></div>ITUB (ref.)</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ VALUATION ═══ -->
+<div class="tp" id="panel-valuation">
+
+  <div class="sl">Valuation Multiples <span>· Fuente única: Yahoo Finance / MacroTrends · Mar 2026</span></div>
+  <div class="src-note">📊 <b>Fuente única para comparabilidad:</b> MacroTrends + Yahoo Finance (misma metodología para todos los tickers) · Fecha de referencia: Mar 2026 · ITUB P/E 10.0x (Yahoo Mar 2026), BBD P/E 9.1x (MacroTrends Jan 2026), NU P/E 24.4x (StockAnalysis Mar 2026), BAP P/E 13.6x (MacroTrends Feb 2026)</div>
+
+  <div class="cr cr2">
+    <div class="cc bap-accent">
+      <div class="cch"><div><div class="cct">P/Book Value vs ROE (%) — Burbuja = Market Cap</div><div class="ccs">¿Está BAP bien valorado relativo a su ROE? · Fuente: MacroTrends/Yahoo Mar 2026</div></div><span class="badge b-teal">Clave IR</span></div>
+      <div class="chw h300"><canvas id="ch-val-sc"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cch"><div><div class="cct">P/E Ratio TTM Comparativo</div><div class="ccs">Múltiplo pagado por cada dólar de earnings</div></div></div>
+      <div class="chw h300"><canvas id="ch-pe-bar"></canvas></div>
+    </div>
+  </div>
+
+  <div class="sl">Tabla Completa de Valoración <span>· Fuente única: Yahoo Finance / MacroTrends · Mar 2026</span></div>
+  <div class="cc" style="margin-bottom:1.5rem">
+    <div class="mwrap">
+      <table class="mx">
+        <thead>
+          <tr>
+            <th>Métrica</th>
+            <th class="hbap">BAP · Credicorp</th>
+            <th class="hitub">ITUB · Itaú</th>
+            <th class="hnu">NU · Nubank</th>
+            <th class="hbbd">BBD · Bradesco</th>
+            <th class="hintr">INTR · Inter</th>
+            <th>Interpretación IR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="sr"><td colspan="7">PRECIO Y CAPITALIZACIÓN (Yahoo Finance / MacroTrends · Mar 2026)</td></tr>
+          <tr><td class="mn">Market Cap (USD bn)</td><td class="bap-col">~$11bn</td><td><b class="best">~$101bn</b></td><td>~$70bn</td><td>~$38bn</td><td>~$5bn</td><td>BAP: menor del grupo — descuento escala</td></tr>
+          <tr><td class="mn">P/E TTM</td><td class="bap-col ok">13.6x</td><td>10.0x</td><td class="warn">24.4x</td><td>9.1x</td><td>~22x</td><td>BAP cotiza a premium vs ITUB/BBD — inusual</td></tr>
+          <tr><td class="mn">P/Book Value</td><td class="bap-col ok">~2.9x</td><td>~2.0x</td><td class="warn">~7.6x</td><td>1.1x</td><td>~2.1x</td><td>BBD sub-libro = mercado no cree en turnaround total</td></tr>
+          <tr><td class="mn">Dividend Yield TTM</td><td class="bap-col">~3.9%</td><td class="warn">~0.5% ADR¹</td><td>0.0%</td><td>~0.7% ADR¹</td><td>~1.5%</td><td>¹ITUB/BBD pagan JCP en BRL — yield ADR sub-representa</td></tr>
+          <tr class="sr"><td colspan="7">MÉTRICAS RELATIVAS</td></tr>
+          <tr><td class="mn">ROE / P/BV (calidad relativa)</td><td class="bap-col ok">6.6x</td><td><b class="best">12.2x</b></td><td>3.8x</td><td class="warn">12.3x</td><td>5.7x</td><td>ITUB y BBD: ratio favorable (ROE alto vs. precio bajo)</td></tr>
+          <tr><td class="mn">Gap ROE vs ITUB (pp)</td><td class="bap-col warn">−5.4pp</td><td class="best">benchmark</td><td>+8.6pp</td><td>−10.9pp</td><td>−12.4pp</td><td>BAP tiene el gap más pequeño entre bancos tradicionls</td></tr>
+          <tr><td class="mn">Premium/descuento P/BV vs ROE</td><td class="bap-col ok">Leve premium</td><td>Justo</td><td class="warn">Alto premium</td><td class="warn">Descuento marcado</td><td>Leve descuento</td><td>BAP cotizaría 2.0–2.5x P/BV si ROE sube a 21%+</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:var(--dim);margin-top:8px;font-family:'DM Mono',monospace;">⚠ Nota ITUB/BBD: ITUB paga dividendo principalmente vía JCP (Juros sobre Capital Próprio) en BRL — el ADR yield ~0.5% subestima el retorno real al accionista (payout real = 72%). BBD similar. BAP: yield ~3.9% es el comparable más directo en USD.</div>
+  </div>
+
+  <div class="sl">Tesis de Re-rating BAP <span>· Cada +1pp ROE ≈ +0.15–0.20x P/BV (regresión histórica LatAm banks)</span></div>
+  <div class="cc bap-accent" style="margin-bottom:1.5rem">
+    <div class="cch"><div><div class="cct">Upside implícito si BAP alcanza ROE objetivo</div><div class="ccs">P/BV regresión histórica bancos LatAm · BAP actual: 2.9x con ROE 19%</div></div><span class="badge b-pink">Thesis IR</span></div>
+    <div class="chw h260"><canvas id="ch-rerating"></canvas></div>
+    <div style="margin-top:1rem;font-size:12px;color:var(--muted);font-style:italic;line-height:1.6;">
+      <strong style="color:var(--text)">Tesis de re-rating:</strong> BAP cotiza ~2.9x P/BV con ROE ~19%. El P/BV actual es relativamente alto vs el ROE — sugiere que el mercado ya precio parcialmente la mejora. El catalizador para expansión de múltiplo adicional es ROE sostenible por encima de 20–21% + NPL bajo 4.0% + narrativa clara de Yape monetizando. Si el mercado re-ratease BAP a la misma ecuación que ITUB (2.0x P/BV por unidad de ROE ~24%), el upside sería moderado. El verdadero unlock: reducir el descuento de tamaño vía Helm Bank (Colombia) + Tenpo (Chile) que amplían la plataforma.
+    </div>
+  </div>
+
+</div>
+
+</main>
+
+<footer class="footer">
+  <span>Fundamentals: BAP ER 4Q25 · ITUB 6-K Feb 2026 · NU 6-K Feb 2026 · BBD 6-K Feb 2026 · INTR 6-K Feb 2026 · Valuation: Yahoo Finance / MacroTrends (fuente única) · Mar 2026</span>
+  <span>Credicorp IR Intelligence · CFA-level · No es asesoría de inversión</span>
+</footer>
+
+<script>
+'use strict';
+document.querySelectorAll('.ntab').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.ntab').forEach(x => x.classList.remove('a'));
+  document.querySelectorAll('.tp').forEach(x => x.classList.remove('a'));
+  t.classList.add('a');
+  document.getElementById('panel-' + t.dataset.tab).classList.add('a');
+}));
+
+// ── Chart config ──
+Chart.defaults.color = '#9AA3B0';
+Chart.defaults.font.family = "'DM Mono', monospace";
+Chart.defaults.font.size = 10;
+const GC = 'rgba(0,0,0,0.06)';
+
+// Colores por banco (consistentes en todos los charts)
+const C = {
+  BAP:  '#5AA6A1',  // teal Credicorp
+  ITUB: '#EC7000',  // naranja Itaú
+  NU:   '#820AD1',  // violeta Nubank
+  BBD:  '#CC0000',  // rojo Bradesco
+  INTR: '#FF6B2B',  // naranja-rojo Inter
+};
+
+const tip = (c = '#5AA6A1') => ({
+  backgroundColor: '#fff',
+  borderColor: c, borderWidth: 1,
+  titleColor: c, bodyColor: '#5A6478',
+  padding: 10, cornerRadius: 4,
+});
+
+const BNAMES = ['BAP','ITUB','NU','BBD','INTR'];
+const BC  = BNAMES.map(b => C[b]);
+const BCA = BC.map(c => c + 'CC');
+
+// ── 1. Strategic quadrant ──
+new Chart(document.getElementById('ch-quad'), {
+  type: 'bubble',
+  data: { datasets: [
+    { label:'BAP',  data:[{x:46.6,y:19.0,r:14}], backgroundColor:C.BAP+'CC',  borderColor:C.BAP,  borderWidth:3 },
+    { label:'ITUB', data:[{x:38.9,y:24.4,r:26}], backgroundColor:C.ITUB+'BB', borderColor:C.ITUB, borderWidth:2 },
+    { label:'NU',   data:[{x:19.9,y:33.0,r:20}], backgroundColor:C.NU+'BB',   borderColor:C.NU,   borderWidth:2 },
+    { label:'BBD',  data:[{x:50.0,y:13.5,r:22}], backgroundColor:C.BBD+'BB',  borderColor:C.BBD,  borderWidth:2 },
+    { label:'INTR', data:[{x:45.5,y:12.0,r:9}],  backgroundColor:C.INTR+'BB', borderColor:C.INTR, borderWidth:2 },
+  ]},
+  options: { responsive:true, maintainAspectRatio:false,
+    plugins: { legend:{display:true,labels:{color:'#5A6478',boxWidth:10,font:{size:10}}}, tooltip:{...tip(),callbacks:{label:c=>`${c.dataset.label} · Eff:${c.raw.x}% · ROE:${c.raw.y}%`}} },
+    scales: {
+      x:{grid:{color:GC},ticks:{color:'#9AA3B0',callback:v=>`${v}%`},title:{display:true,text:'Efficiency (menor = mejor) →',color:'#9AA3B0'},min:10,max:60},
+      y:{grid:{color:GC},ticks:{color:'#9AA3B0',callback:v=>`${v}%`},title:{display:true,text:'ROE (%)',color:'#9AA3B0'},min:8,max:38}
+    }
+  }
+});
+
+// ── 2. ROE quarterly (datos verificados) ──
+new Chart(document.getElementById('ch-roe-qtr'), {
+  type: 'line',
+  data: {
+    labels: ['Q1 25','Q2 25','Q3 25','Q4 25'],
+    datasets: [
+      { label:'BAP',  data:[18.2,20.9,17.5,16.9], borderColor:C.BAP,  backgroundColor:C.BAP+'20', pointBackgroundColor:C.BAP,  pointRadius:5, tension:.3, borderWidth:3, fill:true },
+      { label:'ITUB', data:[22.5,23.1,23.3,24.4], borderColor:C.ITUB, backgroundColor:'transparent', pointBackgroundColor:C.ITUB, pointRadius:3, tension:.3, borderWidth:2 },
+      { label:'NU',   data:[27,28,31,33],           borderColor:C.NU,   backgroundColor:'transparent', pointBackgroundColor:C.NU,   pointRadius:3, tension:.3, borderWidth:2, borderDash:[4,3] },
+      { label:'BBD',  data:[13.0,13.8,14.7,15.2],  borderColor:C.BBD,  backgroundColor:'transparent', pointBackgroundColor:C.BBD,  pointRadius:3, tension:.3, borderWidth:2, borderDash:[2,3] },
+      { label:'INTR', data:[8,10,12,15],            borderColor:C.INTR, backgroundColor:'transparent', pointBackgroundColor:C.INTR, pointRadius:3, tension:.3, borderWidth:2, borderDash:[2,3] },
+    ]
+  },
+  options: { responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:true,labels:{color:'#5A6478',boxWidth:10,font:{size:10}}}, tooltip:{...tip(C.BAP),callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}} },
+    scales:{ x:{grid:{color:GC},ticks:{color:'#9AA3B0'}}, y:{grid:{color:GC},ticks:{color:'#9AA3B0',callback:v=>`${v}%`},min:6,max:36} }
+  }
+});
+
+// ── 3. NPL vs Risk-Adj NIM ──
+new Chart(document.getElementById('ch-npl-nim'), {
+  type: 'bubble',
+  data: { datasets: [
+    { label:'BAP',  data:[{x:4.5,y:5.55,r:11}], backgroundColor:C.BAP+'CC',  borderColor:C.BAP,  borderWidth:3 },
+    { label:'ITUB', data:[{x:1.9,y:6.6,r:20}],  backgroundColor:C.ITUB+'BB', borderColor:C.ITUB, borderWidth:2 },
+    { label:'NU',   data:[{x:6.6,y:10.5,r:16}], backgroundColor:C.NU+'BB',   borderColor:C.NU,   borderWidth:2 },
+    { label:'BBD',  data:[{x:4.1,y:4.5,r:18}],  backgroundColor:C.BBD+'BB',  borderColor:C.BBD,  borderWidth:2 },
+    { label:'INTR', data:[{x:4.7,y:5.92,r:8}],  backgroundColor:C.INTR+'BB', borderColor:C.INTR, borderWidth:2 },
+  ]},
+  options: { responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{...tip(),callbacks:{label:c=>`${c.dataset.label} · NPL:${c.raw.x}% · NIM-adj:${c.raw.y}%`}} },
+    scales:{
+      x:{grid:{color:GC},ticks:{color:'#9AA3B0',callback:v=>`NPL ${v}%`},title:{display:true,text:'NPL 90+ (%)',color:'#9AA3B0'},min:0,max:9},
+      y:{grid:{color:GC},ticks:{color:'#9AA3B0',callback:v=>`${v}%`},title:{display:true,text:'Risk-Adj NIM (%)',color:'#9AA3B0'},min:0,max:13}
+    }
+  }
+});
+
+// ── 4. Efficiency bar ──
+new Chart(document.getElementById('ch-eff'), {
+  type:'bar', indexAxis:'y',
+  data:{ labels:BNAMES, datasets:[{ data:[46.6,38.9,19.9,50.0,45.5], backgroundColor:BCA, borderRadius:3, borderWidth:0 }] },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tip(),callbacks:{label:c=>` ${c.raw}%`}}},
+    scales:{x:{grid:{color:GC},ticks:{color:'#9AA3B0',callback:v=>`${v}%`},min:0,max:60},y:{grid:{display:false},ticks:{color:'#5A6478'}}}
+  }
+});
+
+// ── 5. Loan growth ──
+new Chart(document.getElementById('ch-loan'), {
+  type:'bar',
+  data:{ labels:BNAMES, datasets:[{ data:[8.5,6.0,50,11.0,36], backgroundColor:BCA, borderRadius:3, borderWidth:0 }] },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tip(),callbacks:{label:c=>` +${c.raw}%`}}},
+    scales:{x:{grid:{display:false},ticks:{color:'#5A6478'}},y:{grid:{color:GC},ticks:{color:'#9AA3B0',callback:v=>`+${v}%`},min:0,max:55}}
+  }
+});
+
+// ── 6. NIM vs CoR ──
+new Chart(document.getElementById('ch-nim-cor'), {
+  type:'bar',
+  data:{ labels:BNAMES,
+    datasets:[
+      { label:'Risk-Adj NIM', data:[5.55,6.6,10.5,4.5,5.92], backgroundColor:BCA, borderRadius:3, borderWidth:0 },
+      { label:'Cost of Risk', data:[1.8,2.5,5.5,3.2,5.3], backgroundColor:'rgba(217,79,61,0.4)', borderRadius:3, borderWidth:0 },
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:true,labels:{color:'#5A6478',boxWidth:10,font:{size:10}}},tooltip:{...tip(),callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}}},
+    scales:{x:{grid:{display:false},ticks:{color:'#5A6478'}},y:{grid:{color:GC},ticks:{color:'#9AA3B0',callback:v=>`${v}%`},min:0,max:13}}
+  }
+});
+
+// ── 7. NPL bar ──
+new Chart(document.getElementById('ch-npl-bar'), {
+  type:'bar',
+  data:{ labels:BNAMES, datasets:[{ data:[4.5,1.9,6.6,4.1,4.7], backgroundColor:BCA, borderRadius:3, borderWidth:0 }] },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tip(),callbacks:{label:c=>` NPL: ${c.raw}%`}}},
+    scales:{x:{grid:{display:false},ticks:{color:'#5A6478'}},y:{grid:{color:GC},ticks:{color:'#9AA3B0',callback:v=>`${v}%`},min:0,max:8}}
+  }
+});
+
+// ── 8. Efficiency trajectory ──
+new Chart(document.getElementById('ch-eff-traj'), {
+  type:'line',
+  data:{ labels:['2022','2023','2024','2025','Target'],
+    datasets:[
+      { label:'BAP',  data:[47.5,46.1,45.8,46.6,45.8], borderColor:C.BAP,  backgroundColor:C.BAP+'18', borderWidth:3, pointRadius:4, tension:.3, fill:true },
+      { label:'ITUB', data:[43.0,41.5,39.5,38.9,37.5], borderColor:C.ITUB, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3, borderDash:[4,3] },
+      { label:'BBD',  data:[54.0,53.0,52.0,50.0,40.0], borderColor:C.BBD,  backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3, borderDash:[2,3] },
+      { label:'INTR', data:[62.0,55.0,48.0,45.5,30.0], borderColor:C.INTR, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3, borderDash:[2,3] },
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:true,labels:{color:'#5A6478',boxWidth:10,font:{size:10}}},tooltip:{...tip(C.BAP),callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}}},
+    scales:{x:{grid:{color:GC},ticks:{color:'#9AA3B0'}},y:{grid:{color:GC},ticks:{color:'#9AA3B0',callback:v=>`${v}%`},min:25,max:65}}
+  }
+});
+
+// ── 9. Net Income absolute ──
+new Chart(document.getElementById('ch-ni-abs'), {
+  type:'bar', indexAxis:'y',
+  data:{ labels:['BAP (S/bn)','ITUB (R$bn)','NU ($bn)','BBD (R$bn)','INTR (R$bn)'],
+    datasets:[{ data:[6.925,46.8,2.9,24.7,1.3], backgroundColor:BCA, borderRadius:3, borderWidth:0 }]
+  },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tip(),callbacks:{label:c=>` NI FY25: ${c.raw}`}}},
+    scales:{x:{grid:{color:GC},ticks:{color:'#9AA3B0'},min:0,max:52},y:{grid:{display:false},ticks:{color:'#5A6478'}}}
+  }
+});
+
+// ── 10. Scenario ROE chart (datos históricos verificados) ──
+new Chart(document.getElementById('ch-scen'), {
+  type:'line',
+  data:{ labels:['2021','2022','2023','2024','2025','2026e Bear','2026e Base','2026e Bull'],
+    datasets:[
+      { label:'BAP Base', data:[13.9,16.8,15.8,16.5,19.0,null,19.5,null], borderColor:C.BAP, backgroundColor:C.BAP+'18', borderWidth:3, pointRadius:4, tension:.3, fill:true, spanGaps:true },
+      { label:'BAP Bear', data:[null,null,null,null,19.0,17.5,null,null], borderColor:'#D94F3D', backgroundColor:'rgba(217,79,61,.08)', borderWidth:2, pointRadius:5, tension:.3, borderDash:[4,3], spanGaps:true },
+      { label:'BAP Bull', data:[null,null,null,null,19.0,null,null,21.0], borderColor:'#2BAE66', backgroundColor:'rgba(43,174,102,.08)', borderWidth:2, pointRadius:5, tension:.3, borderDash:[4,3], spanGaps:true },
+      { label:'ITUB (ref)', data:[19.3,21.0,21.0,22.1,24.4,25.0,25.0,25.0], borderColor:C.ITUB, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3, borderDash:[6,3] },
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false, spanGaps:true,
+    plugins:{legend:{display:true,labels:{color:'#5A6478',boxWidth:10,font:{size:10}}},tooltip:{...tip(C.BAP),callbacks:{label:c=>c.raw!=null?` ${c.dataset.label}: ${c.raw}%`:''}}},
+    scales:{x:{grid:{color:GC},ticks:{color:'#9AA3B0'}},y:{grid:{color:GC},ticks:{color:'#9AA3B0',callback:v=>`${v}%`},min:12,max:28}}
+  }
+});
+
+// ── 11. P/BV vs ROE scatter (valuation tab) ──
+new Chart(document.getElementById('ch-val-sc'), {
+  type:'bubble',
+  data:{ datasets:[
+    { label:'BAP',  data:[{x:19.0,y:2.9,r:9}],  backgroundColor:C.BAP+'CC',  borderColor:C.BAP,  borderWidth:3 },
+    { label:'ITUB', data:[{x:24.4,y:2.0,r:22}],  backgroundColor:C.ITUB+'BB', borderColor:C.ITUB, borderWidth:2 },
+    { label:'NU',   data:[{x:29.0,y:7.6,r:20}],  backgroundColor:C.NU+'BB',   borderColor:C.NU,   borderWidth:2 },
+    { label:'BBD',  data:[{x:13.5,y:1.1,r:16}],  backgroundColor:C.BBD+'BB',  borderColor:C.BBD,  borderWidth:2 },
+    { label:'INTR', data:[{x:12.0,y:2.1,r:8}],   backgroundColor:C.INTR+'BB', borderColor:C.INTR, borderWidth:2 },
+  ]},
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:true,labels:{color:'#5A6478',boxWidth:10,font:{size:10}}},tooltip:{...tip(C.BAP),callbacks:{label:c=>`${c.dataset.label} · ROE:${c.raw.x}% · P/BV:${c.raw.y}x`}}},
+    scales:{
+      x:{grid:{color:GC},ticks:{color:'#9AA3B0',callback:v=>`ROE ${v}%`},title:{display:true,text:'ROE (%)',color:'#9AA3B0'},min:8,max:34},
+      y:{grid:{color:GC},ticks:{color:'#9AA3B0',callback:v=>`${v}x`},title:{display:true,text:'P/Book Value',color:'#9AA3B0'},min:0,max:9}
+    }
+  }
+});
+
+// ── 12. P/E bar ──
+new Chart(document.getElementById('ch-pe-bar'), {
+  type:'bar',
+  data:{ labels:BNAMES, datasets:[{ data:[13.6,10.0,24.4,9.1,22.0], backgroundColor:BCA, borderRadius:4, borderWidth:0 }] },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tip(),callbacks:{label:c=>` P/E TTM: ${c.raw}x`}}},
+    scales:{x:{grid:{display:false},ticks:{color:'#5A6478'}},y:{grid:{color:GC},ticks:{color:'#9AA3B0',callback:v=>`${v}x`},min:0,max:30}}
+  }
+});
+
+// ── 13. Re-rating ──
+new Chart(document.getElementById('ch-rerating'), {
+  type:'bar',
+  data:{
+    labels:['BAP hoy\nROE 19%','BAP base\nROE 19.5%','BAP opt.\nROE 20.5%','BAP target\nROE 22%','ITUB ref.\nROE 24.4%'],
+    datasets:[{ label:'P/BV implícito', data:[2.9,3.0,3.15,3.4,2.0],
+      backgroundColor:[C.BAP+'AA',C.BAP+'BB',C.BAP+'CC',C.BAP+'EE',C.ITUB+'CC'],
+      borderRadius:4, borderWidth:0 }]
+  },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tip(C.BAP),callbacks:{label:c=>{const up=((c.raw/2.9-1)*100).toFixed(0);return ` P/BV: ${c.raw}x · vs hoy: ${up>0?'+':''}${up}%`;} }}},
+    scales:{x:{grid:{display:false},ticks:{color:'#5A6478'}},y:{grid:{color:GC},ticks:{color:'#9AA3B0',callback:v=>`${v}x`},min:1.5,max:3.8,title:{display:true,text:'P/Book Value',color:'#9AA3B0'}}}
+  }
+});
+</script>
+</body>
+</html>
